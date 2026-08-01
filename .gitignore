@@ -8,4 +8,4 @@ coverage/
 *.tsbuildinfo
 .DS_Store
 data/raw/
-.vercel
+.artifacts/
