@@ -1,6 +1,6 @@
 # DebtScope AI
 
-DebtScope AI is a nonpartisan U.S. national-debt intelligence platform: a current Treasury snapshot, a comparable six-decade historical series with nominal and inflation-adjusted views, administration-period calculations with exact transition balances, walk-forward-validated trend forecasts with empirical uncertainty ranges, and a clearly labeled deterministic scenario laboratory.
+DebtScope AI is a nonpartisan U.S. national-debt intelligence platform: every official federal debt record since 1790 on an interactive timeline with political-control context, administration-period calculations for all 47 presidencies with exact transition balances, nominal and inflation-adjusted views, walk-forward-validated trend forecasts with empirical uncertainty ranges, and a clearly labeled deterministic scenario laboratory.
 
 **Live production:** [debtscope-ai.vercel.app](https://debtscope-ai.vercel.app)
 
@@ -14,7 +14,9 @@ Forecasts come from transparent statistical time-series models selected by **rol
 - Committed authoritative snapshots (Treasury Fiscal Data + FRED: BLS, BEA, OMB, Census) for reproducible builds — see [DATA_SOURCES.md](DATA_SOURCES.md) and [DATA_LINEAGE.md](DATA_LINEAGE.md)
 - `scripts/refresh-data.ts` → `scripts/validate-data.ts` → `scripts/evaluate-models.ts` pipeline; the scheduled workflow commits refreshed data only when validation, evaluation, and tests pass
 - Production forecasts are generated from the committed, versioned evaluation artifact (`data/model-evaluation.json`); model version, data-through date, and interval coverage are displayed in the UI and returned by the API
-- Nominal and inflation-adjusted (2025-dollar, BLS CPI-U) views for history, administrations, and scenarios — every real figure states its base year
+- Nominal and inflation-adjusted (2025-dollar, BLS CPI-U) views for history, administrations, and scenarios — every real figure states its base year; real values before CPI coverage (1913) are shown as unavailable, never fabricated
+- Deep history: Treasury annual records from 1790, quarterly from 1966, daily from 1993, tier-labeled; interactive charts (zoom/pan/log/exports) with recession shading, presidential and congressional control strips, and event annotations
+- Political control (1st–119th Congress) compiled from official party-division tables with anchor tests; evaluated as ML features (finding: no out-of-sample predictive gain — see `POLITICAL_MODEL_COMPARISON.csv`) and used for descriptive context only
 
 ## Local setup
 
@@ -54,6 +56,8 @@ CI runs all of the above plus a from-scratch re-derivation of the evaluation art
 - `GET /api/administrations` — nominal + real (2025 $) fields, boundary provenance
 - `GET /api/forecast?years=20` — production model output with full metadata
 - `GET /api/scenario?years=10&realSpendingGrowth=2&realRevenueGrowth=1.5&inflation=2.3&interestRate=3.3&realGdpGrowth=1.9`
+- `GET /api/history?resolution=annual|quarterly|daily|auto` — tiered history back to 1790
+- `GET /api/political?date=YYYY-MM-DD` — president, chamber control, unified/divided (1789+)
 - `GET /api/sources`
 
 ## Audit trail

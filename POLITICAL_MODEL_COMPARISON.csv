@@ -1,0 +1,6 @@
+feature_set,n_forecasts,mae_log_growth,rmse_log_growth,mae_vs_naive_ratio
+baseline-ar,85,0.04001,0.06877,1.0740
+president-only,85,0.05568,0.07863,1.4946
+congress-only,85,0.05963,0.08084,1.6005
+combined-political,85,0.05915,0.08222,1.5878
+# walk-forward one-year-ahead, data through 2025-09-30; ratio <1 beats last-growth naive

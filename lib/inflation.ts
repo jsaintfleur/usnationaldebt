@@ -34,10 +34,31 @@ function load() {
   return cache;
 }
 
+let historicalCache: Array<{ date: string; value: number }> | null = null;
+
+/**
+ * Historical NSA CPI-U (CPIAUCNS, 1913+). Used only for dates before the
+ * seasonally adjusted series begins (1947); the two series share the same
+ * 1982–84 = 100 reference base, and base-year averages are insensitive to
+ * seasonal adjustment, so mixing them across that boundary is sound.
+ */
+function historicalCpi() {
+  historicalCache ??= readFredCsv("data/cpi-historical.csv");
+  return historicalCache;
+}
+
+/** Earliest month with any CPI observation; real values are undefined before this. */
+export const CPI_COVERAGE_START = "1913-01-01";
+
 /** CPI-U index level for the month containing `date` (falls back to the latest prior month). */
 export function cpiAt(date: string): number {
   const { series } = load();
   const monthKey = `${date.slice(0, 7)}-01`;
+  if (monthKey < series[0].date) {
+    const row = atOrBefore(historicalCpi(), monthKey);
+    if (!row) throw new Error(`No CPI observation on or before ${date} (CPI begins ${CPI_COVERAGE_START})`);
+    return row.value;
+  }
   const row = atOrBefore(series, monthKey);
   if (!row) throw new Error(`No CPI observation on or before ${date}`);
   return row.value;
@@ -51,6 +72,16 @@ export function baseCpi(): number {
 /** Convert a nominal dollar amount observed at `date` into BASE_YEAR dollars. */
 export function toReal(nominal: number, date: string): number {
   return nominal * (baseCpi() / cpiAt(date));
+}
+
+/**
+ * Like toReal, but returns null before CPI coverage (1913) instead of
+ * fabricating a pre-CPI price level. UIs must render this as "not available",
+ * never as zero.
+ */
+export function toRealMaybe(nominal: number, date: string): number | null {
+  if (date < CPI_COVERAGE_START) return null;
+  return toReal(nominal, date);
 }
 
 /** Last month with a published CPI observation (governs how current real values can be). */

@@ -1,0 +1,2749 @@
+{
+ "source": "Compiled 2026-08-01 from 'Party divisions of United States Congresses' (Wikipedia consolidation of the official Senate.gov and House.gov party-division tables). Seat counts are start-of-congress compositions; effective-control overrides for caucus/tie-break organizations are annotated per chamber.",
+ "congresses": [
+  {
+   "congress": 1,
+   "startYear": 1789,
+   "endYear": 1791,
+   "senate": {
+    "total": 26,
+    "seats": {
+     "Anti-Admin": 8,
+     "Pro-Admin": 18,
+     "Other": 0
+    },
+    "majority": "Pro-Admin"
+   },
+   "house": {
+    "total": 65,
+    "seats": {
+     "Anti-Admin": 28,
+     "Pro-Admin": 37,
+     "Other": 0
+    },
+    "majority": "Pro-Admin"
+   }
+  },
+  {
+   "congress": 2,
+   "startYear": 1791,
+   "endYear": 1793,
+   "senate": {
+    "total": 30,
+    "seats": {
+     "Anti-Admin": 13,
+     "Pro-Admin": 16,
+     "Other": 0
+    },
+    "majority": "Pro-Admin"
+   },
+   "house": {
+    "total": 69,
+    "seats": {
+     "Anti-Admin": 30,
+     "Pro-Admin": 39,
+     "Other": 0
+    },
+    "majority": "Pro-Admin"
+   }
+  },
+  {
+   "congress": 3,
+   "startYear": 1793,
+   "endYear": 1795,
+   "senate": {
+    "total": 30,
+    "seats": {
+     "Anti-Admin": 14,
+     "Pro-Admin": 16,
+     "Other": 0
+    },
+    "majority": "Pro-Admin"
+   },
+   "house": {
+    "total": 105,
+    "seats": {
+     "Anti-Admin": 54,
+     "Pro-Admin": 51,
+     "Other": 0
+    },
+    "majority": "Anti-Admin"
+   }
+  },
+  {
+   "congress": 4,
+   "startYear": 1795,
+   "endYear": 1797,
+   "senate": {
+    "total": 32,
+    "seats": {
+     "Democratic-Republicans": 11,
+     "Federalists": 21,
+     "Other": 0
+    },
+    "majority": "Federalists"
+   },
+   "house": {
+    "total": 106,
+    "seats": {
+     "Democratic-Republicans": 59,
+     "Federalists": 47,
+     "Other": 0
+    },
+    "majority": "Democratic-Republicans"
+   }
+  },
+  {
+   "congress": 5,
+   "startYear": 1797,
+   "endYear": 1799,
+   "senate": {
+    "total": 32,
+    "seats": {
+     "Democratic-Republicans": 10,
+     "Federalists": 22,
+     "Other": 0
+    },
+    "majority": "Federalists"
+   },
+   "house": {
+    "total": 106,
+    "seats": {
+     "Democratic-Republicans": 49,
+     "Federalists": 57,
+     "Other": 0
+    },
+    "majority": "Federalists"
+   }
+  },
+  {
+   "congress": 6,
+   "startYear": 1799,
+   "endYear": 1801,
+   "senate": {
+    "total": 32,
+    "seats": {
+     "Democratic-Republicans": 10,
+     "Federalists": 22,
+     "Other": 0
+    },
+    "majority": "Federalists"
+   },
+   "house": {
+    "total": 106,
+    "seats": {
+     "Democratic-Republicans": 46,
+     "Federalists": 60,
+     "Other": 0
+    },
+    "majority": "Federalists"
+   }
+  },
+  {
+   "congress": 7,
+   "startYear": 1801,
+   "endYear": 1803,
+   "senate": {
+    "total": 34,
+    "seats": {
+     "Democratic-Republicans": 17,
+     "Federalists": 15,
+     "Other": 0
+    },
+    "majority": "Democratic-Republicans"
+   },
+   "house": {
+    "total": 107,
+    "seats": {
+     "Democratic-Republicans": 68,
+     "Federalists": 38,
+     "Other": 0
+    },
+    "majority": "Democratic-Republicans"
+   }
+  },
+  {
+   "congress": 8,
+   "startYear": 1803,
+   "endYear": 1805,
+   "senate": {
+    "total": 34,
+    "seats": {
+     "Democratic-Republicans": 25,
+     "Federalists": 9,
+     "Other": 0
+    },
+    "majority": "Democratic-Republicans"
+   },
+   "house": {
+    "total": 142,
+    "seats": {
+     "Democratic-Republicans": 103,
+     "Federalists": 39,
+     "Other": 0
+    },
+    "majority": "Democratic-Republicans"
+   }
+  },
+  {
+   "congress": 9,
+   "startYear": 1805,
+   "endYear": 1807,
+   "senate": {
+    "total": 34,
+    "seats": {
+     "Democratic-Republicans": 27,
+     "Federalists": 7,
+     "Other": 0
+    },
+    "majority": "Democratic-Republicans"
+   },
+   "house": {
+    "total": 142,
+    "seats": {
+     "Democratic-Republicans": 114,
+     "Federalists": 28,
+     "Other": 0
+    },
+    "majority": "Democratic-Republicans"
+   }
+  },
+  {
+   "congress": 10,
+   "startYear": 1807,
+   "endYear": 1809,
+   "senate": {
+    "total": 34,
+    "seats": {
+     "Democratic-Republicans": 28,
+     "Federalists": 6,
+     "Other": 0
+    },
+    "majority": "Democratic-Republicans"
+   },
+   "house": {
+    "total": 142,
+    "seats": {
+     "Democratic-Republicans": 116,
+     "Federalists": 26,
+     "Other": 0
+    },
+    "majority": "Democratic-Republicans"
+   }
+  },
+  {
+   "congress": 11,
+   "startYear": 1809,
+   "endYear": 1811,
+   "senate": {
+    "total": 34,
+    "seats": {
+     "Democratic-Republicans": 27,
+     "Federalists": 7,
+     "Other": 0
+    },
+    "majority": "Democratic-Republicans"
+   },
+   "house": {
+    "total": 142,
+    "seats": {
+     "Democratic-Republicans": 92,
+     "Federalists": 50,
+     "Other": 0
+    },
+    "majority": "Democratic-Republicans"
+   }
+  },
+  {
+   "congress": 12,
+   "startYear": 1811,
+   "endYear": 1813,
+   "senate": {
+    "total": 36,
+    "seats": {
+     "Democratic-Republicans": 30,
+     "Federalists": 6,
+     "Other": 0
+    },
+    "majority": "Democratic-Republicans"
+   },
+   "house": {
+    "total": 143,
+    "seats": {
+     "Democratic-Republicans": 107,
+     "Federalists": 36,
+     "Other": 0
+    },
+    "majority": "Democratic-Republicans"
+   }
+  },
+  {
+   "congress": 13,
+   "startYear": 1813,
+   "endYear": 1815,
+   "senate": {
+    "total": 36,
+    "seats": {
+     "Democratic-Republicans": 28,
+     "Federalists": 8,
+     "Other": 0
+    },
+    "majority": "Democratic-Republicans"
+   },
+   "house": {
+    "total": 182,
+    "seats": {
+     "Democratic-Republicans": 114,
+     "Federalists": 68,
+     "Other": 0
+    },
+    "majority": "Democratic-Republicans"
+   }
+  },
+  {
+   "congress": 14,
+   "startYear": 1815,
+   "endYear": 1817,
+   "senate": {
+    "total": 38,
+    "seats": {
+     "Democratic-Republicans": 26,
+     "Federalists": 12,
+     "Other": 0
+    },
+    "majority": "Democratic-Republicans"
+   },
+   "house": {
+    "total": 183,
+    "seats": {
+     "Democratic-Republicans": 119,
+     "Federalists": 64,
+     "Other": 0
+    },
+    "majority": "Democratic-Republicans"
+   }
+  },
+  {
+   "congress": 15,
+   "startYear": 1817,
+   "endYear": 1819,
+   "senate": {
+    "total": 42,
+    "seats": {
+     "Democratic-Republicans": 30,
+     "Federalists": 12,
+     "Other": 0
+    },
+    "majority": "Democratic-Republicans"
+   },
+   "house": {
+    "total": 185,
+    "seats": {
+     "Democratic-Republicans": 146,
+     "Federalists": 39,
+     "Other": 0
+    },
+    "majority": "Democratic-Republicans"
+   }
+  },
+  {
+   "congress": 16,
+   "startYear": 1819,
+   "endYear": 1821,
+   "senate": {
+    "total": 46,
+    "seats": {
+     "Democratic-Republicans": 37,
+     "Federalists": 9,
+     "Other": 0
+    },
+    "majority": "Democratic-Republicans"
+   },
+   "house": {
+    "total": 186,
+    "seats": {
+     "Democratic-Republicans": 160,
+     "Federalists": 26,
+     "Other": 0
+    },
+    "majority": "Democratic-Republicans"
+   }
+  },
+  {
+   "congress": 17,
+   "startYear": 1821,
+   "endYear": 1823,
+   "senate": {
+    "total": 48,
+    "seats": {
+     "Democratic-Republicans": 44,
+     "Federalists": 4,
+     "Other": 0
+    },
+    "majority": "Democratic-Republicans"
+   },
+   "house": {
+    "total": 187,
+    "seats": {
+     "Democratic-Republicans": 155,
+     "Federalists": 32,
+     "Other": 0
+    },
+    "majority": "Democratic-Republicans"
+   }
+  },
+  {
+   "congress": 18,
+   "startYear": 1823,
+   "endYear": 1825,
+   "senate": {
+    "total": 48,
+    "seats": {
+     "Democratic-Republicans": 43,
+     "Federalists": 5,
+     "Other": 0
+    },
+    "majority": "Democratic-Republicans"
+   },
+   "house": {
+    "total": 213,
+    "seats": {
+     "Democratic-Republicans": 189,
+     "Federalists": 24,
+     "Other": 0
+    },
+    "majority": "Democratic-Republicans"
+   }
+  },
+  {
+   "congress": 19,
+   "startYear": 1825,
+   "endYear": 1827,
+   "senate": {
+    "total": 48,
+    "seats": {
+     "Jacksonian": 26,
+     "Anti-Jackson": 22,
+     "Other": 0
+    },
+    "majority": "Jacksonian"
+   },
+   "house": {
+    "total": 213,
+    "seats": {
+     "Jacksonian": 104,
+     "Anti-Jackson": 109,
+     "Other": 0
+    },
+    "majority": "Anti-Jackson"
+   }
+  },
+  {
+   "congress": 20,
+   "startYear": 1827,
+   "endYear": 1829,
+   "senate": {
+    "total": 48,
+    "seats": {
+     "Jacksonian": 27,
+     "Anti-Jackson": 21,
+     "Other": 0
+    },
+    "majority": "Jacksonian"
+   },
+   "house": {
+    "total": 213,
+    "seats": {
+     "Jacksonian": 113,
+     "Anti-Jackson": 100,
+     "Other": 0
+    },
+    "majority": "Jacksonian"
+   }
+  },
+  {
+   "congress": 21,
+   "startYear": 1829,
+   "endYear": 1831,
+   "senate": {
+    "total": 48,
+    "seats": {
+     "Jacksonian": 25,
+     "Anti-Jackson": 23,
+     "Other": 0
+    },
+    "majority": "Jacksonian"
+   },
+   "house": {
+    "total": 213,
+    "seats": {
+     "Jacksonian": 136,
+     "Anti-Jackson": 72,
+     "Other": 5
+    },
+    "majority": "Jacksonian"
+   }
+  },
+  {
+   "congress": 22,
+   "startYear": 1831,
+   "endYear": 1833,
+   "senate": {
+    "total": 48,
+    "seats": {
+     "Jacksonian": 24,
+     "Anti-Jackson": 22,
+     "Other": 2
+    },
+    "majority": "Jacksonian"
+   },
+   "house": {
+    "total": 213,
+    "seats": {
+     "Jacksonian": 126,
+     "Anti-Jackson": 66,
+     "Other": 21
+    },
+    "majority": "Jacksonian"
+   }
+  },
+  {
+   "congress": 23,
+   "startYear": 1833,
+   "endYear": 1835,
+   "senate": {
+    "total": 48,
+    "seats": {
+     "Jacksonian": 20,
+     "Anti-Jackson": 26,
+     "Other": 2
+    },
+    "majority": "Anti-Jackson"
+   },
+   "house": {
+    "total": 240,
+    "seats": {
+     "Jacksonian": 143,
+     "Anti-Jackson": 63,
+     "Other": 34
+    },
+    "majority": "Jacksonian"
+   }
+  },
+  {
+   "congress": 24,
+   "startYear": 1835,
+   "endYear": 1837,
+   "senate": {
+    "total": 52,
+    "seats": {
+     "Jacksonian": 26,
+     "Anti-Jackson": 24,
+     "Other": 2
+    },
+    "majority": "Jacksonian"
+   },
+   "house": {
+    "total": 242,
+    "seats": {
+     "Jacksonian": 143,
+     "Anti-Jackson": 75,
+     "Other": 24
+    },
+    "majority": "Jacksonian"
+   }
+  },
+  {
+   "congress": 25,
+   "startYear": 1837,
+   "endYear": 1839,
+   "senate": {
+    "total": 52,
+    "seats": {
+     "Democrats": 35,
+     "Whigs": 17,
+     "Other": 0
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 242,
+    "seats": {
+     "Democrats": 128,
+     "Whigs": 100,
+     "Other": 14
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 26,
+   "startYear": 1839,
+   "endYear": 1841,
+   "senate": {
+    "total": 52,
+    "seats": {
+     "Democrats": 30,
+     "Whigs": 22,
+     "Other": 0
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 242,
+    "seats": {
+     "Democrats": 125,
+     "Whigs": 109,
+     "Other": 8
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 27,
+   "startYear": 1841,
+   "endYear": 1843,
+   "senate": {
+    "total": 52,
+    "seats": {
+     "Democrats": 22,
+     "Whigs": 29,
+     "Other": 0
+    },
+    "majority": "Whigs"
+   },
+   "house": {
+    "total": 242,
+    "seats": {
+     "Democrats": 98,
+     "Whigs": 142,
+     "Other": 2
+    },
+    "majority": "Whigs"
+   }
+  },
+  {
+   "congress": 28,
+   "startYear": 1843,
+   "endYear": 1845,
+   "senate": {
+    "total": 52,
+    "seats": {
+     "Democrats": 23,
+     "Whigs": 29,
+     "Other": 0
+    },
+    "majority": "Whigs"
+   },
+   "house": {
+    "total": 223,
+    "seats": {
+     "Democrats": 147,
+     "Whigs": 72,
+     "Other": 4
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 29,
+   "startYear": 1845,
+   "endYear": 1847,
+   "senate": {
+    "total": 58,
+    "seats": {
+     "Democrats": 34,
+     "Whigs": 22,
+     "Other": 0
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 228,
+    "seats": {
+     "Democrats": 142,
+     "Whigs": 79,
+     "Other": 7
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 30,
+   "startYear": 1847,
+   "endYear": 1849,
+   "senate": {
+    "total": 60,
+    "seats": {
+     "Democrats": 38,
+     "Whigs": 21,
+     "Other": 1
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 230,
+    "seats": {
+     "Democrats": 110,
+     "Whigs": 116,
+     "Other": 4
+    },
+    "majority": "Whigs"
+   }
+  },
+  {
+   "congress": 31,
+   "startYear": 1849,
+   "endYear": 1851,
+   "senate": {
+    "total": 62,
+    "seats": {
+     "Democrats": 35,
+     "Whigs": 25,
+     "Other": 2
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 233,
+    "seats": {
+     "Democrats": 113,
+     "Whigs": 108,
+     "Other": 11
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 32,
+   "startYear": 1851,
+   "endYear": 1853,
+   "senate": {
+    "total": 62,
+    "seats": {
+     "Democrats": 36,
+     "Whigs": 23,
+     "Other": 3
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 233,
+    "seats": {
+     "Democrats": 127,
+     "Whigs": 85,
+     "Other": 21
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 33,
+   "startYear": 1853,
+   "endYear": 1855,
+   "senate": {
+    "total": 62,
+    "seats": {
+     "Democrats": 38,
+     "Whigs": 22,
+     "Other": 2
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 234,
+    "seats": {
+     "Democrats": 157,
+     "Whigs": 71,
+     "Other": 6
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 34,
+   "startYear": 1855,
+   "endYear": 1857,
+   "senate": {
+    "total": 62,
+    "seats": {
+     "Democrats": 39,
+     "Opposition": 21,
+     "Other": 2
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 234,
+    "seats": {
+     "Democrats": 83,
+     "Opposition": 100,
+     "Other": 51
+    },
+    "majority": "Opposition"
+   }
+  },
+  {
+   "congress": 35,
+   "startYear": 1857,
+   "endYear": 1859,
+   "senate": {
+    "total": 64,
+    "seats": {
+     "Democrats": 39,
+     "Republicans": 20,
+     "Other": 5
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 237,
+    "seats": {
+     "Democrats": 131,
+     "Republicans": 94,
+     "Other": 13
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 36,
+   "startYear": 1859,
+   "endYear": 1861,
+   "senate": {
+    "total": 66,
+    "seats": {
+     "Democrats": 38,
+     "Republicans": 26,
+     "Other": 2
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 237,
+    "seats": {
+     "Democrats": 101,
+     "Republicans": 113,
+     "Other": 23
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 37,
+   "startYear": 1861,
+   "endYear": 1863,
+   "senate": {
+    "total": 50,
+    "seats": {
+     "Democrats": 11,
+     "Republicans": 31,
+     "Other": 7
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 178,
+    "seats": {
+     "Democrats": 42,
+     "Republicans": 106,
+     "Other": 28
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 38,
+   "startYear": 1863,
+   "endYear": 1865,
+   "senate": {
+    "total": 51,
+    "seats": {
+     "Democrats": 12,
+     "Republicans": 29,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 183,
+    "seats": {
+     "Democrats": 80,
+     "Republicans": 103,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 39,
+   "startYear": 1865,
+   "endYear": 1867,
+   "senate": {
+    "total": 52,
+    "seats": {
+     "Democrats": 10,
+     "Republicans": 42,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 191,
+    "seats": {
+     "Democrats": 46,
+     "Republicans": 145,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 40,
+   "startYear": 1867,
+   "endYear": 1869,
+   "senate": {
+    "total": 53,
+    "seats": {
+     "Democrats": 11,
+     "Republicans": 42,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 193,
+    "seats": {
+     "Democrats": 49,
+     "Republicans": 143,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 41,
+   "startYear": 1869,
+   "endYear": 1871,
+   "senate": {
+    "total": 74,
+    "seats": {
+     "Democrats": 11,
+     "Republicans": 61,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 243,
+    "seats": {
+     "Democrats": 73,
+     "Republicans": 170,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 42,
+   "startYear": 1871,
+   "endYear": 1873,
+   "senate": {
+    "total": 74,
+    "seats": {
+     "Democrats": 17,
+     "Republicans": 57,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 243,
+    "seats": {
+     "Democrats": 104,
+     "Republicans": 136,
+     "Other": 3
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 43,
+   "startYear": 1873,
+   "endYear": 1875,
+   "senate": {
+    "total": 74,
+    "seats": {
+     "Democrats": 19,
+     "Republicans": 54,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 293,
+    "seats": {
+     "Democrats": 88,
+     "Republicans": 203,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 44,
+   "startYear": 1875,
+   "endYear": 1877,
+   "senate": {
+    "total": 76,
+    "seats": {
+     "Democrats": 29,
+     "Republicans": 46,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 293,
+    "seats": {
+     "Democrats": 181,
+     "Republicans": 107,
+     "Other": 3
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 45,
+   "startYear": 1877,
+   "endYear": 1879,
+   "senate": {
+    "total": 76,
+    "seats": {
+     "Democrats": 36,
+     "Republicans": 39,
+     "Other": 1
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 293,
+    "seats": {
+     "Democrats": 156,
+     "Republicans": 137,
+     "Other": 0
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 46,
+   "startYear": 1879,
+   "endYear": 1881,
+   "senate": {
+    "total": 76,
+    "seats": {
+     "Democrats": 43,
+     "Republicans": 33,
+     "Other": 0
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 293,
+    "seats": {
+     "Democrats": 150,
+     "Republicans": 128,
+     "Other": 14
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 47,
+   "startYear": 1881,
+   "endYear": 1883,
+   "senate": {
+    "total": 76,
+    "seats": {
+     "Democrats": 37,
+     "Republicans": 37,
+     "Other": 2
+    },
+    "majority": "Republicans",
+    "note": "37\u201337 tie; Republicans organized with Vice President Arthur's tie-breaking vote"
+   },
+   "house": {
+    "total": 293,
+    "seats": {
+     "Democrats": 130,
+     "Republicans": 152,
+     "Other": 11
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 48,
+   "startYear": 1883,
+   "endYear": 1885,
+   "senate": {
+    "total": 76,
+    "seats": {
+     "Democrats": 36,
+     "Republicans": 40,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 325,
+    "seats": {
+     "Democrats": 200,
+     "Republicans": 119,
+     "Other": 6
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 49,
+   "startYear": 1885,
+   "endYear": 1887,
+   "senate": {
+    "total": 76,
+    "seats": {
+     "Democrats": 34,
+     "Republicans": 41,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 325,
+    "seats": {
+     "Democrats": 182,
+     "Republicans": 140,
+     "Other": 2
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 50,
+   "startYear": 1887,
+   "endYear": 1889,
+   "senate": {
+    "total": 76,
+    "seats": {
+     "Democrats": 37,
+     "Republicans": 39,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 325,
+    "seats": {
+     "Democrats": 170,
+     "Republicans": 151,
+     "Other": 4
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 51,
+   "startYear": 1889,
+   "endYear": 1891,
+   "senate": {
+    "total": 84,
+    "seats": {
+     "Democrats": 37,
+     "Republicans": 47,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 330,
+    "seats": {
+     "Democrats": 156,
+     "Republicans": 173,
+     "Other": 1
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 52,
+   "startYear": 1891,
+   "endYear": 1893,
+   "senate": {
+    "total": 88,
+    "seats": {
+     "Democrats": 39,
+     "Republicans": 47,
+     "Other": 2
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 333,
+    "seats": {
+     "Democrats": 231,
+     "Republicans": 88,
+     "Other": 14
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 53,
+   "startYear": 1893,
+   "endYear": 1895,
+   "senate": {
+    "total": 88,
+    "seats": {
+     "Democrats": 44,
+     "Republicans": 38,
+     "Other": 3
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 356,
+    "seats": {
+     "Democrats": 220,
+     "Republicans": 126,
+     "Other": 10
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 54,
+   "startYear": 1895,
+   "endYear": 1897,
+   "senate": {
+    "total": 88,
+    "seats": {
+     "Democrats": 39,
+     "Republicans": 44,
+     "Other": 5
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 357,
+    "seats": {
+     "Democrats": 104,
+     "Republicans": 246,
+     "Other": 7
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 55,
+   "startYear": 1897,
+   "endYear": 1899,
+   "senate": {
+    "total": 90,
+    "seats": {
+     "Democrats": 34,
+     "Republicans": 46,
+     "Other": 10
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 357,
+    "seats": {
+     "Democrats": 134,
+     "Republicans": 206,
+     "Other": 16
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 56,
+   "startYear": 1899,
+   "endYear": 1901,
+   "senate": {
+    "total": 90,
+    "seats": {
+     "Democrats": 26,
+     "Republicans": 53,
+     "Other": 11
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 357,
+    "seats": {
+     "Democrats": 163,
+     "Republicans": 185,
+     "Other": 9
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 57,
+   "startYear": 1901,
+   "endYear": 1903,
+   "senate": {
+    "total": 90,
+    "seats": {
+     "Democrats": 29,
+     "Republicans": 56,
+     "Other": 3
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 357,
+    "seats": {
+     "Democrats": 153,
+     "Republicans": 198,
+     "Other": 5
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 58,
+   "startYear": 1903,
+   "endYear": 1905,
+   "senate": {
+    "total": 90,
+    "seats": {
+     "Democrats": 32,
+     "Republicans": 58,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 386,
+    "seats": {
+     "Democrats": 178,
+     "Republicans": 207,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 59,
+   "startYear": 1905,
+   "endYear": 1907,
+   "senate": {
+    "total": 90,
+    "seats": {
+     "Democrats": 32,
+     "Republicans": 58,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 386,
+    "seats": {
+     "Democrats": 136,
+     "Republicans": 250,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 60,
+   "startYear": 1907,
+   "endYear": 1909,
+   "senate": {
+    "total": 92,
+    "seats": {
+     "Democrats": 29,
+     "Republicans": 61,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 386,
+    "seats": {
+     "Democrats": 164,
+     "Republicans": 222,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 61,
+   "startYear": 1909,
+   "endYear": 1911,
+   "senate": {
+    "total": 92,
+    "seats": {
+     "Democrats": 32,
+     "Republicans": 59,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 391,
+    "seats": {
+     "Democrats": 172,
+     "Republicans": 219,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 62,
+   "startYear": 1911,
+   "endYear": 1913,
+   "senate": {
+    "total": 92,
+    "seats": {
+     "Democrats": 42,
+     "Republicans": 49,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 391,
+    "seats": {
+     "Democrats": 228,
+     "Republicans": 162,
+     "Other": 1
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 63,
+   "startYear": 1913,
+   "endYear": 1915,
+   "senate": {
+    "total": 96,
+    "seats": {
+     "Democrats": 51,
+     "Republicans": 44,
+     "Other": 1
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 290,
+     "Republicans": 127,
+     "Other": 18
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 64,
+   "startYear": 1915,
+   "endYear": 1917,
+   "senate": {
+    "total": 96,
+    "seats": {
+     "Democrats": 56,
+     "Republicans": 39,
+     "Other": 1
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 231,
+     "Republicans": 193,
+     "Other": 8
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 65,
+   "startYear": 1917,
+   "endYear": 1919,
+   "senate": {
+    "total": 96,
+    "seats": {
+     "Democrats": 53,
+     "Republicans": 42,
+     "Other": 1
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 210,
+     "Republicans": 216,
+     "Other": 9
+    },
+    "majority": "Democrats",
+    "note": "Republican plurality, but Democrats organized the House with third-party support"
+   }
+  },
+  {
+   "congress": 66,
+   "startYear": 1919,
+   "endYear": 1921,
+   "senate": {
+    "total": 96,
+    "seats": {
+     "Democrats": 47,
+     "Republicans": 49,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 191,
+     "Republicans": 237,
+     "Other": 7
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 67,
+   "startYear": 1921,
+   "endYear": 1923,
+   "senate": {
+    "total": 96,
+    "seats": {
+     "Democrats": 37,
+     "Republicans": 59,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 132,
+     "Republicans": 300,
+     "Other": 1
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 68,
+   "startYear": 1923,
+   "endYear": 1925,
+   "senate": {
+    "total": 96,
+    "seats": {
+     "Democrats": 43,
+     "Republicans": 51,
+     "Other": 2
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 207,
+     "Republicans": 225,
+     "Other": 3
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 69,
+   "startYear": 1925,
+   "endYear": 1927,
+   "senate": {
+    "total": 96,
+    "seats": {
+     "Democrats": 40,
+     "Republicans": 54,
+     "Other": 1
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 183,
+     "Republicans": 247,
+     "Other": 5
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 70,
+   "startYear": 1927,
+   "endYear": 1929,
+   "senate": {
+    "total": 96,
+    "seats": {
+     "Democrats": 47,
+     "Republicans": 48,
+     "Other": 1
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 195,
+     "Republicans": 237,
+     "Other": 3
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 71,
+   "startYear": 1929,
+   "endYear": 1931,
+   "senate": {
+    "total": 96,
+    "seats": {
+     "Democrats": 39,
+     "Republicans": 56,
+     "Other": 1
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 163,
+     "Republicans": 267,
+     "Other": 1
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 72,
+   "startYear": 1931,
+   "endYear": 1933,
+   "senate": {
+    "total": 96,
+    "seats": {
+     "Democrats": 47,
+     "Republicans": 48,
+     "Other": 1
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 217,
+     "Republicans": 217,
+     "Other": 1
+    },
+    "majority": "Democrats",
+    "note": "217\u2013217 at the election; Democrats organized after pre-session vacancies"
+   }
+  },
+  {
+   "congress": 73,
+   "startYear": 1933,
+   "endYear": 1935,
+   "senate": {
+    "total": 96,
+    "seats": {
+     "Democrats": 59,
+     "Republicans": 36,
+     "Other": 1
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 313,
+     "Republicans": 117,
+     "Other": 5
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 74,
+   "startYear": 1935,
+   "endYear": 1937,
+   "senate": {
+    "total": 96,
+    "seats": {
+     "Democrats": 69,
+     "Republicans": 25,
+     "Other": 2
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 322,
+     "Republicans": 103,
+     "Other": 10
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 75,
+   "startYear": 1937,
+   "endYear": 1939,
+   "senate": {
+    "total": 96,
+    "seats": {
+     "Democrats": 76,
+     "Republicans": 16,
+     "Other": 4
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 333,
+     "Republicans": 89,
+     "Other": 13
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 76,
+   "startYear": 1939,
+   "endYear": 1941,
+   "senate": {
+    "total": 96,
+    "seats": {
+     "Democrats": 69,
+     "Republicans": 23,
+     "Other": 4
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 261,
+     "Republicans": 169,
+     "Other": 5
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 77,
+   "startYear": 1941,
+   "endYear": 1943,
+   "senate": {
+    "total": 96,
+    "seats": {
+     "Democrats": 66,
+     "Republicans": 28,
+     "Other": 2
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 268,
+     "Republicans": 162,
+     "Other": 5
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 78,
+   "startYear": 1943,
+   "endYear": 1945,
+   "senate": {
+    "total": 96,
+    "seats": {
+     "Democrats": 57,
+     "Republicans": 38,
+     "Other": 1
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 222,
+     "Republicans": 209,
+     "Other": 4
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 79,
+   "startYear": 1945,
+   "endYear": 1947,
+   "senate": {
+    "total": 96,
+    "seats": {
+     "Democrats": 57,
+     "Republicans": 38,
+     "Other": 1
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 243,
+     "Republicans": 190,
+     "Other": 2
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 80,
+   "startYear": 1947,
+   "endYear": 1949,
+   "senate": {
+    "total": 96,
+    "seats": {
+     "Democrats": 45,
+     "Republicans": 51,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 188,
+     "Republicans": 246,
+     "Other": 1
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 81,
+   "startYear": 1949,
+   "endYear": 1951,
+   "senate": {
+    "total": 96,
+    "seats": {
+     "Democrats": 54,
+     "Republicans": 42,
+     "Other": 0
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 262,
+     "Republicans": 171,
+     "Other": 2
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 82,
+   "startYear": 1951,
+   "endYear": 1953,
+   "senate": {
+    "total": 96,
+    "seats": {
+     "Democrats": 48,
+     "Republicans": 47,
+     "Other": 1
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 235,
+     "Republicans": 199,
+     "Other": 1
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 83,
+   "startYear": 1953,
+   "endYear": 1955,
+   "senate": {
+    "total": 96,
+    "seats": {
+     "Democrats": 47,
+     "Republicans": 48,
+     "Other": 1
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 213,
+     "Republicans": 221,
+     "Other": 1
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 84,
+   "startYear": 1955,
+   "endYear": 1957,
+   "senate": {
+    "total": 96,
+    "seats": {
+     "Democrats": 48,
+     "Republicans": 47,
+     "Other": 1
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 232,
+     "Republicans": 203,
+     "Other": 0
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 85,
+   "startYear": 1957,
+   "endYear": 1959,
+   "senate": {
+    "total": 96,
+    "seats": {
+     "Democrats": 49,
+     "Republicans": 47,
+     "Other": 0
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 234,
+     "Republicans": 201,
+     "Other": 0
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 86,
+   "startYear": 1959,
+   "endYear": 1961,
+   "senate": {
+    "total": 98,
+    "seats": {
+     "Democrats": 64,
+     "Republicans": 34,
+     "Other": 0
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 437,
+    "seats": {
+     "Democrats": 284,
+     "Republicans": 153,
+     "Other": 0
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 87,
+   "startYear": 1961,
+   "endYear": 1963,
+   "senate": {
+    "total": 100,
+    "seats": {
+     "Democrats": 64,
+     "Republicans": 36,
+     "Other": 0
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 437,
+    "seats": {
+     "Democrats": 262,
+     "Republicans": 175,
+     "Other": 0
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 88,
+   "startYear": 1963,
+   "endYear": 1965,
+   "senate": {
+    "total": 100,
+    "seats": {
+     "Democrats": 67,
+     "Republicans": 33,
+     "Other": 0
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 258,
+     "Republicans": 176,
+     "Other": 0
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 89,
+   "startYear": 1965,
+   "endYear": 1967,
+   "senate": {
+    "total": 100,
+    "seats": {
+     "Democrats": 68,
+     "Republicans": 32,
+     "Other": 0
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 295,
+     "Republicans": 140,
+     "Other": 0
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 90,
+   "startYear": 1967,
+   "endYear": 1969,
+   "senate": {
+    "total": 100,
+    "seats": {
+     "Democrats": 64,
+     "Republicans": 36,
+     "Other": 0
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 247,
+     "Republicans": 187,
+     "Other": 0
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 91,
+   "startYear": 1969,
+   "endYear": 1971,
+   "senate": {
+    "total": 100,
+    "seats": {
+     "Democrats": 58,
+     "Republicans": 42,
+     "Other": 0
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 243,
+     "Republicans": 192,
+     "Other": 0
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 92,
+   "startYear": 1971,
+   "endYear": 1973,
+   "senate": {
+    "total": 100,
+    "seats": {
+     "Democrats": 54,
+     "Republicans": 44,
+     "Other": 2
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 255,
+     "Republicans": 180,
+     "Other": 0
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 93,
+   "startYear": 1973,
+   "endYear": 1975,
+   "senate": {
+    "total": 100,
+    "seats": {
+     "Democrats": 56,
+     "Republicans": 42,
+     "Other": 2
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 243,
+     "Republicans": 192,
+     "Other": 0
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 94,
+   "startYear": 1975,
+   "endYear": 1977,
+   "senate": {
+    "total": 100,
+    "seats": {
+     "Democrats": 61,
+     "Republicans": 37,
+     "Other": 2
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 291,
+     "Republicans": 144,
+     "Other": 0
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 95,
+   "startYear": 1977,
+   "endYear": 1979,
+   "senate": {
+    "total": 100,
+    "seats": {
+     "Democrats": 61,
+     "Republicans": 38,
+     "Other": 1
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 292,
+     "Republicans": 143,
+     "Other": 0
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 96,
+   "startYear": 1979,
+   "endYear": 1981,
+   "senate": {
+    "total": 100,
+    "seats": {
+     "Democrats": 58,
+     "Republicans": 41,
+     "Other": 1
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 277,
+     "Republicans": 157,
+     "Other": 1
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 97,
+   "startYear": 1981,
+   "endYear": 1983,
+   "senate": {
+    "total": 100,
+    "seats": {
+     "Democrats": 46,
+     "Republicans": 53,
+     "Other": 1
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 242,
+     "Republicans": 192,
+     "Other": 1
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 98,
+   "startYear": 1983,
+   "endYear": 1985,
+   "senate": {
+    "total": 100,
+    "seats": {
+     "Democrats": 46,
+     "Republicans": 54,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 269,
+     "Republicans": 165,
+     "Other": 1
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 99,
+   "startYear": 1985,
+   "endYear": 1987,
+   "senate": {
+    "total": 100,
+    "seats": {
+     "Democrats": 47,
+     "Republicans": 53,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 253,
+     "Republicans": 181,
+     "Other": 1
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 100,
+   "startYear": 1987,
+   "endYear": 1989,
+   "senate": {
+    "total": 100,
+    "seats": {
+     "Democrats": 55,
+     "Republicans": 45,
+     "Other": 0
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 258,
+     "Republicans": 177,
+     "Other": 0
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 101,
+   "startYear": 1989,
+   "endYear": 1991,
+   "senate": {
+    "total": 100,
+    "seats": {
+     "Democrats": 55,
+     "Republicans": 45,
+     "Other": 0
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 260,
+     "Republicans": 175,
+     "Other": 0
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 102,
+   "startYear": 1991,
+   "endYear": 1993,
+   "senate": {
+    "total": 100,
+    "seats": {
+     "Democrats": 56,
+     "Republicans": 44,
+     "Other": 0
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 267,
+     "Republicans": 167,
+     "Other": 1
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 103,
+   "startYear": 1993,
+   "endYear": 1995,
+   "senate": {
+    "total": 100,
+    "seats": {
+     "Democrats": 57,
+     "Republicans": 43,
+     "Other": 0
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 258,
+     "Republicans": 176,
+     "Other": 1
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 104,
+   "startYear": 1995,
+   "endYear": 1997,
+   "senate": {
+    "total": 100,
+    "seats": {
+     "Democrats": 47,
+     "Republicans": 53,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 204,
+     "Republicans": 230,
+     "Other": 1
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 105,
+   "startYear": 1997,
+   "endYear": 1999,
+   "senate": {
+    "total": 100,
+    "seats": {
+     "Democrats": 45,
+     "Republicans": 55,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 206,
+     "Republicans": 227,
+     "Other": 2
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 106,
+   "startYear": 1999,
+   "endYear": 2001,
+   "senate": {
+    "total": 100,
+    "seats": {
+     "Democrats": 45,
+     "Republicans": 55,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 211,
+     "Republicans": 223,
+     "Other": 1
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 107,
+   "startYear": 2001,
+   "endYear": 2003,
+   "senate": {
+    "total": 100,
+    "seats": {
+     "Democrats": 50,
+     "Republicans": 50,
+     "Other": 0
+    },
+    "majority": "Democrats",
+    "note": "50\u201350; Republican control via VP until June 2001, Democratic control after Sen. Jeffords left the GOP"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 212,
+     "Republicans": 221,
+     "Other": 2
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 108,
+   "startYear": 2003,
+   "endYear": 2005,
+   "senate": {
+    "total": 100,
+    "seats": {
+     "Democrats": 48,
+     "Republicans": 51,
+     "Other": 1
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 205,
+     "Republicans": 229,
+     "Other": 1
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 109,
+   "startYear": 2005,
+   "endYear": 2007,
+   "senate": {
+    "total": 100,
+    "seats": {
+     "Democrats": 44,
+     "Republicans": 55,
+     "Other": 1
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 202,
+     "Republicans": 232,
+     "Other": 1
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 110,
+   "startYear": 2007,
+   "endYear": 2009,
+   "senate": {
+    "total": 100,
+    "seats": {
+     "Democrats": 49,
+     "Republicans": 49,
+     "Other": 2
+    },
+    "majority": "Democrats",
+    "note": "49\u201349 with two independents caucusing with Democrats"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 233,
+     "Republicans": 202,
+     "Other": 0
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 111,
+   "startYear": 2009,
+   "endYear": 2011,
+   "senate": {
+    "total": 100,
+    "seats": {
+     "Democrats": 56,
+     "Republicans": 40,
+     "Other": 2
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 257,
+     "Republicans": 178,
+     "Other": 0
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 112,
+   "startYear": 2011,
+   "endYear": 2013,
+   "senate": {
+    "total": 100,
+    "seats": {
+     "Democrats": 51,
+     "Republicans": 47,
+     "Other": 2
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 193,
+     "Republicans": 242,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 113,
+   "startYear": 2013,
+   "endYear": 2015,
+   "senate": {
+    "total": 100,
+    "seats": {
+     "Democrats": 53,
+     "Republicans": 45,
+     "Other": 2
+    },
+    "majority": "Democrats"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 201,
+     "Republicans": 234,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 114,
+   "startYear": 2015,
+   "endYear": 2017,
+   "senate": {
+    "total": 100,
+    "seats": {
+     "Democrats": 44,
+     "Republicans": 54,
+     "Other": 2
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 188,
+     "Republicans": 247,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 115,
+   "startYear": 2017,
+   "endYear": 2019,
+   "senate": {
+    "total": 100,
+    "seats": {
+     "Democrats": 46,
+     "Republicans": 50,
+     "Other": 2
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 194,
+     "Republicans": 241,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 116,
+   "startYear": 2019,
+   "endYear": 2021,
+   "senate": {
+    "total": 100,
+    "seats": {
+     "Democrats": 45,
+     "Republicans": 53,
+     "Other": 2
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 235,
+     "Republicans": 200,
+     "Other": 1
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 117,
+   "startYear": 2021,
+   "endYear": 2023,
+   "senate": {
+    "total": 100,
+    "seats": {
+     "Democrats": 48,
+     "Republicans": 50,
+     "Other": 2
+    },
+    "majority": "Democrats",
+    "note": "50\u201350 after the January 2021 Georgia runoffs; Democratic control via the Vice President's tie-breaking vote"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 222,
+     "Republicans": 213,
+     "Other": 0
+    },
+    "majority": "Democrats"
+   }
+  },
+  {
+   "congress": 118,
+   "startYear": 2023,
+   "endYear": 2025,
+   "senate": {
+    "total": 100,
+    "seats": {
+     "Democrats": 47,
+     "Republicans": 49,
+     "Other": 3
+    },
+    "majority": "Democrats",
+    "note": "48 Democrats + 3 independents caucusing with Democrats vs 49 Republicans"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 212,
+     "Republicans": 222,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   }
+  },
+  {
+   "congress": 119,
+   "startYear": 2025,
+   "endYear": 2027,
+   "senate": {
+    "total": 100,
+    "seats": {
+     "Democrats": 45,
+     "Republicans": 53,
+     "Other": 2
+    },
+    "majority": "Republicans"
+   },
+   "house": {
+    "total": 435,
+    "seats": {
+     "Democrats": 215,
+     "Republicans": 219,
+     "Other": 0
+    },
+    "majority": "Republicans"
+   }
+  }
+ ]
+}

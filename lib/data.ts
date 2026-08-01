@@ -1,8 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
-import type { Administration, AdminSummary, DebtPoint } from "./types";
-import { toReal, BASE_YEAR } from "./inflation";
+import type { Administration, AdminSummary, BoundaryMethod, DebtPoint } from "./types";
+import { toReal, toRealMaybe, BASE_YEAR } from "./inflation";
 import { MODELS } from "./models";
+import { presidents } from "./political";
 
 const read = (file: string) => fs.readFileSync(path.join(process.cwd(), file), "utf8");
 
@@ -46,23 +47,46 @@ export function latest() {
 }
 
 /**
- * Administrations covered by the comparable series. GFDEBTN begins 1966-Q1, so
- * Lyndon B. Johnson's 1963 start predates coverage and his term is excluded
- * rather than silently backfilled with a 1966 value (see METHODOLOGY.md).
+ * All administrations since 1789, derived from data/presidents.json. Repeated
+ * names (Cleveland, Trump) get term ordinals so table keys and labels stay
+ * unambiguous. The sitting president's term is marked partial and ends at the
+ * latest observation.
  */
-export const administrations: Administration[] = [
-  { president: "Richard Nixon", party: "Republican", start: "1969-01-20", end: "1974-08-09" },
-  { president: "Gerald Ford", party: "Republican", start: "1974-08-09", end: "1977-01-20" },
-  { president: "Jimmy Carter", party: "Democratic", start: "1977-01-20", end: "1981-01-20" },
-  { president: "Ronald Reagan", party: "Republican", start: "1981-01-20", end: "1989-01-20" },
-  { president: "George H. W. Bush", party: "Republican", start: "1989-01-20", end: "1993-01-20" },
-  { president: "Bill Clinton", party: "Democratic", start: "1993-01-20", end: "2001-01-20" },
-  { president: "George W. Bush", party: "Republican", start: "2001-01-20", end: "2009-01-20" },
-  { president: "Barack Obama", party: "Democratic", start: "2009-01-20", end: "2017-01-20" },
-  { president: "Donald Trump (I)", party: "Republican", start: "2017-01-20", end: "2021-01-20" },
-  { president: "Joe Biden", party: "Democratic", start: "2021-01-20", end: "2025-01-20" },
-  { president: "Donald Trump (II)", party: "Republican", start: "2025-01-20", end: new Date().toISOString().slice(0, 10), partial: true },
-];
+export const administrations: Administration[] = (() => {
+  const all = presidents();
+  const nameCounts = new Map<string, number>();
+  for (const p of all) nameCounts.set(p.name, (nameCounts.get(p.name) ?? 0) + 1);
+  const seen = new Map<string, number>();
+  const roman = ["I", "II", "III"];
+  return all.map((p) => {
+    let label = p.name;
+    if ((nameCounts.get(p.name) ?? 0) > 1) {
+      const idx = seen.get(p.name) ?? 0;
+      seen.set(p.name, idx + 1);
+      label = `${p.name} (${roman[idx]})`;
+    }
+    return {
+      president: label,
+      party: p.party,
+      start: p.start,
+      end: p.end ?? new Date().toISOString().slice(0, 10),
+      partial: p.end === null,
+    };
+  });
+})();
+
+/** Annual fiscal-year-end debt (Treasury Historical Debt Outstanding, 1790+). */
+function annualDebt(): DebtPoint[] {
+  return read("data/debt-annual.csv")
+    .trim()
+    .split("\n")
+    .slice(1)
+    .map((line) => {
+      const [date, value] = line.split(",");
+      return { date, debt: Number(value) };
+    })
+    .filter((x) => Number.isFinite(x.debt) && x.debt >= 0);
+}
 
 type ExactTransition = { boundary: string; recordDate: string; total: number };
 
@@ -83,13 +107,30 @@ export function nearestPrior(points: DebtPoint[], date: string): DebtPoint | nul
   return null;
 }
 
-type Boundary = { asOf: string; debt: number; method: "treasury-daily" | "quarter-end-proxy" | "latest-quarter" };
+type Boundary = { asOf: string; debt: number; method: BoundaryMethod };
 
-function boundaryObservation(points: DebtPoint[], date: string, exact: Map<string, ExactTransition>): Boundary | null {
+/**
+ * Boundary resolution, finest available first: exact Treasury daily balance
+ * (2001+) → preceding quarter-end (1966+) → preceding annual fiscal-year end
+ * (1790+). Washington's 1789 start predates all records, so his term anchors
+ * on the first 1790 observation, labeled series-start-proxy.
+ */
+function boundaryObservation(
+  points: DebtPoint[],
+  annual: DebtPoint[],
+  date: string,
+  exact: Map<string, ExactTransition>,
+): Boundary | null {
   const daily = exact.get(date);
   if (daily) return { asOf: daily.recordDate, debt: daily.total, method: "treasury-daily" };
-  const proxy = nearestPrior(points, date);
-  return proxy ? { asOf: proxy.date, debt: proxy.debt, method: "quarter-end-proxy" } : null;
+  const quarterly = nearestPrior(points, date);
+  if (quarterly) return { asOf: quarterly.date, debt: quarterly.debt, method: "quarter-end-proxy" };
+  const yearly = nearestPrior(annual, date);
+  if (yearly) return { asOf: yearly.date, debt: yearly.debt, method: "annual-proxy" };
+  if (annual.length > 0 && date < annual[0].date) {
+    return { asOf: annual[0].date, debt: annual[0].debt, method: "series-start-proxy" };
+  }
+  return null;
 }
 
 /**
@@ -101,33 +142,39 @@ function boundaryObservation(points: DebtPoint[], date: string, exact: Map<strin
  */
 export function summarize(points = history()): AdminSummary[] {
   const exact = exactTransitions();
+  const annual = annualDebt();
   const last = points[points.length - 1];
   return administrations.flatMap((a) => {
-    const s = boundaryObservation(points, a.start, exact);
+    const s = boundaryObservation(points, annual, a.start, exact);
     const e = a.partial
       ? ({ asOf: last.date, debt: last.debt, method: "latest-quarter" } as Boundary)
-      : boundaryObservation(points, a.end, exact);
+      : boundaryObservation(points, annual, a.end, exact);
     if (!s || !e) return [];
     const days = Math.max(1, (Date.parse(e.asOf) - Date.parse(s.asOf)) / 86400000);
     const years = days / 365.2425;
     const increase = e.debt - s.debt;
-    const startDebtReal = toReal(s.debt, s.asOf);
-    const endDebtReal = toReal(e.debt, e.asOf);
-    const increaseReal = endDebtReal - startDebtReal;
+    // Real (BASE_YEAR-dollar) values exist only where CPI coverage does (1913+);
+    // Jackson-era zero debt also makes real percent growth undefined.
+    const startDebtReal = toRealMaybe(s.debt, s.asOf);
+    const endDebtReal = toRealMaybe(e.debt, e.asOf);
+    const hasReal = startDebtReal !== null && endDebtReal !== null;
+    const increaseReal = hasReal ? endDebtReal - startDebtReal : null;
+    const canRate = s.debt > 0;
+    const canRealRate = hasReal && startDebtReal > 0;
     return [{
       ...a,
       startDebt: s.debt,
       endDebt: e.debt,
       increase,
-      percent: (increase / s.debt) * 100,
-      cagr: (Math.pow(e.debt / s.debt, 1 / years) - 1) * 100,
+      percent: canRate ? (increase / s.debt) * 100 : Infinity,
+      cagr: canRate ? (Math.pow(e.debt / s.debt, 1 / years) - 1) * 100 : Infinity,
       daily: increase / days,
       startDebtReal,
       endDebtReal,
       increaseReal,
-      percentReal: (increaseReal / startDebtReal) * 100,
-      cagrReal: (Math.pow(endDebtReal / startDebtReal, 1 / years) - 1) * 100,
-      dailyReal: increaseReal / days,
+      percentReal: canRealRate ? ((increaseReal as number) / startDebtReal) * 100 : null,
+      cagrReal: canRealRate ? (Math.pow(endDebtReal / startDebtReal, 1 / years) - 1) * 100 : null,
+      dailyReal: hasReal ? (increaseReal as number) / days : null,
       startAsOf: s.asOf,
       endAsOf: e.asOf,
       startMethod: s.method,
@@ -163,6 +210,29 @@ export function evaluation(): EvaluationArtifact {
     return JSON.parse(read("data/model-evaluation.json"));
   } catch {
     throw new Error("Missing data/model-evaluation.json — run `npm run models:evaluate` first.");
+  }
+}
+
+export type PoliticalEvaluation = {
+  version: string;
+  generatedAt: string;
+  dataThrough: string;
+  design: string;
+  results: Array<{ featureSet: string; n: number; mae: number; rmse: number; maeVsNaive: number }>;
+  conclusion: {
+    bestFeatureSet: string;
+    politicalVariablesImprovePrediction: boolean;
+    interpretation: string;
+    causalCaveat: string;
+  };
+};
+
+/** The committed political-variable evaluation artifact (see scripts/evaluate-political.ts). */
+export function politicalEvaluation(): PoliticalEvaluation {
+  try {
+    return JSON.parse(read("data/political-evaluation.json"));
+  } catch {
+    throw new Error("Missing data/political-evaluation.json — run `npx tsx scripts/evaluate-political.ts` first.");
   }
 }
 

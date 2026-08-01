@@ -53,7 +53,56 @@ if (fiscal.receipts < 1e12 || fiscal.outlays < 1e12) fail("Fiscal baseline impla
 if (fiscal.outlays < fiscal.receipts * 0.5 || fiscal.receipts < fiscal.outlays * 0.3)
   fail("Fiscal receipts/outlays ratio implausible");
 
+// --- Deep history -------------------------------------------------------------------
+import { annualHistory, dailyHistory, recessions } from "../lib/deep-history";
+import { presidents, congresses, politicalContext } from "../lib/political";
+
+const annual = annualHistory();
+if (annual[0].date.slice(0, 4) !== "1790") fail("Annual debt series must begin in 1790");
+if (Math.abs(annual[0].debt - 71060508.5) > 1) fail("1790 debt does not match the canonical Treasury figure ($71,060,508.50)");
+if (annual.length < 230) fail("Annual debt series unexpectedly short");
+if (annual.some((x, i) => i > 0 && x.date <= annual[i - 1].date)) fail("Annual dates not increasing");
+
+const dailyPts = dailyHistory();
+if (dailyPts.length < 8000) fail("Daily debt series unexpectedly short");
+if (dailyPts[0].date !== "1993-04-01") fail("Daily series must begin 1993-04-01");
+// Cross-check: the latest daily observation must match the committed Treasury snapshot.
+if (Math.abs(dailyPts[dailyPts.length - 1].debt - l.total) > 1e6) fail("Daily series tail disagrees with debt-latest.json");
+
+const rec = recessions();
+if (rec.length < 30) fail("Recession ranges unexpectedly few");
+if (rec[0].start.slice(0, 4) !== "1854") fail("NBER recession series must begin in 1854");
+
+// --- Political data -------------------------------------------------------------------
+const pres = presidents();
+if (pres.length !== 47) fail(`Expected 47 presidencies, got ${pres.length}`);
+for (let i = 1; i < pres.length; i++) {
+  if (pres[i].start !== pres[i - 1].end) fail(`Presidency gap/overlap at ${pres[i].name} (${pres[i].start} vs ${pres[i - 1].end})`);
+}
+const cong = congresses();
+if (cong.length < 119) fail(`Expected >=119 congresses, got ${cong.length}`);
+for (let i = 1; i < cong.length; i++) {
+  if (cong[i].congress !== cong[i - 1].congress + 1) fail(`Congress numbering gap at ${cong[i].congress}`);
+  if (cong[i].startYear !== cong[i - 1].endYear) fail(`Congress year gap at ${cong[i].congress}`);
+}
+// Political anchor facts (official record checks)
+const anchors: Array<[string, string | null, string | null, string | null]> = [
+  ["1933-06-01", "Franklin D. Roosevelt", "Democrats", "Democrats"],
+  ["1995-06-01", "Bill Clinton", "Republicans", "Republicans"],
+  ["2007-06-01", "George W. Bush", "Democrats", "Democrats"],
+  ["2011-06-01", "Barack Obama", "Republicans", "Democrats"],
+  ["2021-06-01", "Joe Biden", "Democrats", "Democrats"],
+  ["2025-06-01", "Donald Trump", "Republicans", "Republicans"],
+];
+for (const [date, president, house, senate] of anchors) {
+  const ctx = politicalContext(date);
+  if (ctx.president?.name !== president) fail(`Political anchor ${date}: president ${ctx.president?.name} != ${president}`);
+  if (ctx.houseMajority !== house) fail(`Political anchor ${date}: house ${ctx.houseMajority} != ${house}`);
+  if (ctx.senateMajority !== senate) fail(`Political anchor ${date}: senate ${ctx.senateMajority} != ${senate}`);
+}
+
 console.log(
-  `Validated ${h.length} debt observations (through ${dates[dates.length - 1]}), latest snapshot ${l.date}, ` +
-    `${cpi.length} CPI months (base ${BASE_YEAR}), GDP ${gdp.date}, population ${pop.date}, fiscal year ${fiscal.fiscalYearEnd}.`,
+  `Validated ${h.length} quarterly + ${annual.length} annual + ${dailyPts.length} daily debt observations, latest snapshot ${l.date}, ` +
+    `${cpi.length} CPI months (base ${BASE_YEAR}), GDP ${gdp.date}, population ${pop.date}, fiscal year ${fiscal.fiscalYearEnd}, ` +
+    `${pres.length} presidencies, ${cong.length} congresses, ${rec.length} recessions.`,
 );

@@ -24,9 +24,14 @@
 
 Lowest mean out-of-sample MASE across the 1-year and 5-year horizons, with the hard constraint that the selected model must not underperform the best naive baseline at those horizons. A more complex model that loses to a naive baseline is never promoted, and "AI" is never used as a reason to prefer complexity.
 
+## Political variables (evaluated 2026-08-01)
+
+Presidential-party, chamber-control, unified-government, transition, and midterm features were tested against a purely autoregressive baseline via ridge-regression walk-forward on annual debt growth (1901+, 85 out-of-sample years). All political feature sets **underperformed** the baseline out of sample (MAE 0.0557–0.0596 vs 0.0400 log-growth). They are used for UI segmentation and historical context only, never in the production forecast, and never as causal claims. Artifact: `data/political-evaluation.json`, `POLITICAL_MODEL_COMPARISON.csv`.
+
 ## Roadmap
 
 1. Macro-covariate candidates (rates, deficits, GDP) using vintage-aware data.
 2. CBO long-term projection overlay, clearly labeled as an official third-party product.
 3. Per-horizon interval recalibration on every scheduled refresh.
 4. Debt-to-GDP as an alternative modeled target.
+5. Re-test political variables with regime-interaction designs before ever promoting them.

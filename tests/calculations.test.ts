@@ -15,23 +15,37 @@ test("nearestPrior returns null before coverage instead of a silent fallback", (
   assert.equal(nearestPrior(p, "1963-11-22"), null);
 });
 
-test("no administration predates series coverage", () => {
-  const first = history()[0].date;
-  for (const a of summarize()) {
-    assert.ok(a.startAsOf >= first, `${a.president} start ${a.startAsOf} predates coverage ${first}`);
-  }
-  // Johnson (1963 start) must be excluded, Nixon must be present.
-  assert.ok(!administrations.some((a) => a.start < "1966-01-01"));
-  assert.ok(administrations.some((a) => a.president === "Richard Nixon"));
+test("all 47 presidencies are covered with tiered boundary provenance", () => {
+  const rows = summarize();
+  assert.equal(rows.length, 47);
+  // Washington predates the first Treasury record; his start anchors on 1790, labeled.
+  const washington = rows.find((r) => r.president === "George Washington")!;
+  assert.equal(washington.startMethod, "series-start-proxy");
+  assert.equal(washington.startAsOf, "1790-01-01");
+  // Pre-1966 boundaries use annual records; 1966+ quarterly; 2001+ exact daily.
+  assert.equal(rows.find((r) => r.president === "Abraham Lincoln")!.startMethod, "annual-proxy");
+  assert.equal(rows.find((r) => r.president === "Lyndon B. Johnson")!.startMethod, "annual-proxy");
+  assert.equal(rows.find((r) => r.president === "Richard Nixon")!.startMethod, "quarter-end-proxy");
+  assert.equal(rows.find((r) => r.president === "Barack Obama")!.startMethod, "treasury-daily");
+  // Repeated names get term ordinals so keys stay unique.
+  assert.ok(administrations.some((a) => a.president === "Grover Cleveland (I)"));
+  assert.ok(administrations.some((a) => a.president === "Donald Trump (II)"));
 });
 
 test("administration calculations reconcile in nominal and real terms", () => {
   for (const a of summarize()) {
     assert.ok(Math.abs(a.startDebt + a.increase - a.endDebt) < 1);
-    assert.ok(Math.abs(a.startDebtReal + a.increaseReal - a.endDebtReal) < 1);
-    assert.ok(Number.isFinite(a.cagr) && Number.isFinite(a.cagrReal));
-    assert.ok(a.endDebt > 0 && a.endDebtReal > 0);
+    assert.ok(a.endDebt > 0);
     assert.equal(a.baseYear, 2025);
+    if (a.startAsOf >= "1913-01-01") {
+      // CPI coverage: real fields must exist and reconcile.
+      assert.ok(a.startDebtReal !== null && a.endDebtReal !== null && a.increaseReal !== null, a.president);
+      assert.ok(Math.abs(a.startDebtReal! + a.increaseReal! - a.endDebtReal!) < 1);
+      assert.ok(Number.isFinite(a.cagr) && a.cagrReal !== null && Number.isFinite(a.cagrReal));
+    } else {
+      // Pre-CPI era: real values must be null, never fabricated.
+      assert.equal(a.startDebtReal, null, `${a.president} should have no real start value`);
+    }
   }
 });
 
@@ -58,10 +72,13 @@ test("real values are labeled and economically sensible", () => {
   const rows = summarize();
   const nixon = rows.find((r) => r.president === "Richard Nixon")!;
   // 1970s debt is worth several times more in 2025 dollars.
-  assert.ok(nixon.startDebtReal > nixon.startDebt * 3);
+  assert.ok((nixon.startDebtReal ?? 0) > nixon.startDebt * 3);
   // Recent debt barely changes when restated in 2025 dollars.
   const biden = rows.find((r) => r.president === "Joe Biden")!;
-  assert.ok(Math.abs(biden.endDebtReal / biden.endDebt - 1) < 0.1);
+  assert.ok(Math.abs((biden.endDebtReal ?? 0) / biden.endDebt - 1) < 0.1);
+  // WWII-era: real comparison exists and dwarfs nominal (1940s prices).
+  const fdr = rows.find((r) => r.president === "Franklin D. Roosevelt")!;
+  assert.ok((fdr.endDebtReal ?? 0) > fdr.endDebt * 10);
 });
 
 test("forecast bands contain midpoint and carry evaluation metadata", () => {

@@ -11,7 +11,8 @@
     "test": "tsx --test tests/*.test.ts",
     "data:refresh": "tsx scripts/refresh-data.ts",
     "data:validate": "tsx scripts/validate-data.ts",
-    "models:evaluate": "tsx scripts/evaluate-models.ts"
+    "models:evaluate": "tsx scripts/evaluate-models.ts",
+    "models:evaluate-political": "tsx scripts/evaluate-political.ts"
   },
   "dependencies": {
     "next": "16.2.12",

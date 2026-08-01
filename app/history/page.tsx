@@ -1,20 +1,56 @@
-import HistoryExplorer from "@/components/HistoryExplorer";
+import FiscalChart from "@/components/FiscalChart";
+import { timelineData } from "@/lib/timeline-data";
+import { toRealMaybe, BASE_YEAR } from "@/lib/inflation";
 import { history } from "@/lib/data";
-import { toReal, BASE_YEAR } from "@/lib/inflation";
+import { money } from "@/lib/format";
 
 export default function Page() {
-  const points = history().map((x) => ({ date: x.date, nominal: x.debt, real: toReal(x.debt, x.date) }));
+  const data = timelineData();
+  const recent = history().slice(-20).reverse();
   return (
     <main className="wrap">
       <header className="pageHead">
         <div className="eyebrow">Historical explorer</div>
-        <h1>Six decades of fiscal history.</h1>
+        <h1>Every federal debt record since 1790.</h1>
         <p>
-          Quarter-end total public debt, shown in nominal dollars, in inflation-adjusted {BASE_YEAR} dollars (BLS CPI-U),
-          or as an index. Daily observations are available from Treasury from April 1993 onward via the API.
+          Annual Treasury records from 1790, quarterly from 1966, daily from 1993 — zoom in and the chart upgrades
+          resolution automatically. Toggle nominal vs inflation-adjusted {BASE_YEAR} dollars and linear vs logarithmic
+          scale (log makes early history readable across five orders of magnitude).
         </p>
       </header>
-      <HistoryExplorer points={points} baseYear={BASE_YEAR} />
+      <div className="panel">
+        <FiscalChart
+          primary={{ label: "Total public debt", points: data.debtCoarse }}
+          daily={data.debtDaily}
+          baseYear={BASE_YEAR}
+          recessions={data.recessions}
+          control={data.control}
+          events={data.events}
+          tiers={data.tiers}
+          height={470}
+          exportName="us-debt-history"
+        />
+      </div>
+      <div className="panel tableWrap">
+        <table>
+          <thead>
+            <tr><th>As of</th><th>Nominal</th><th>In {BASE_YEAR} dollars</th><th>Source</th></tr>
+          </thead>
+          <tbody>
+            {recent.map((x) => {
+              const real = toRealMaybe(x.debt, x.date);
+              return (
+                <tr key={x.date}>
+                  <td>{x.date}</td>
+                  <td>{money(x.debt)}</td>
+                  <td>{real === null ? "—" : money(real)}</td>
+                  <td>U.S. Treasury / FRED · BLS CPI-U</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </main>
   );
 }

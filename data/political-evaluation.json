@@ -1,0 +1,72 @@
+{
+  "version": "pol-2025-09-30",
+  "generatedAt": "2026-08-01T19:25:18.426Z",
+  "dataThrough": "2025-09-30",
+  "design": "annual fiscal-year debt growth (log), 1901+; ridge (lambda=1) walk-forward, one-year-ahead, min 40 training years; political features known ex ante",
+  "featureSets": {
+    "baseline-ar": [
+      "g1",
+      "g2"
+    ],
+    "president-only": [
+      "g1",
+      "g2",
+      "presD",
+      "presR"
+    ],
+    "congress-only": [
+      "g1",
+      "g2",
+      "houseR",
+      "senateR",
+      "unified"
+    ],
+    "combined-political": [
+      "g1",
+      "g2",
+      "presD",
+      "presR",
+      "houseR",
+      "senateR",
+      "unified",
+      "transition",
+      "midterm"
+    ]
+  },
+  "results": [
+    {
+      "featureSet": "baseline-ar",
+      "n": 85,
+      "mae": 0.040012993055256234,
+      "rmse": 0.06876983122304194,
+      "maeVsNaive": 1.074029306746598
+    },
+    {
+      "featureSet": "president-only",
+      "n": 85,
+      "mae": 0.05567976234901336,
+      "rmse": 0.07862563555403446,
+      "maeVsNaive": 1.4945569423647607
+    },
+    {
+      "featureSet": "congress-only",
+      "n": 85,
+      "mae": 0.059625010431825005,
+      "rmse": 0.08083855987788022,
+      "maeVsNaive": 1.6004553453528596
+    },
+    {
+      "featureSet": "combined-political",
+      "n": 85,
+      "mae": 0.05915369423067263,
+      "rmse": 0.08222301928836327,
+      "maeVsNaive": 1.5878042694365173
+    }
+  ],
+  "conclusion": {
+    "bestFeatureSet": "baseline-ar",
+    "politicalVariablesImprovePrediction": false,
+    "interpretation": "Political-control variables do not materially improve one-year-ahead debt-growth prediction over an autoregressive baseline; their value in this product is segmentation and historical interpretability, not forecasting power. This matches the economic prior: debt dynamics are driven by inherited budgets, economic conditions, and emergencies more than by party control alone.",
+    "causalCaveat": "None of this measures causation. Party control correlates with eras, wars, and business cycles that this design does not identify."
+  }
+}

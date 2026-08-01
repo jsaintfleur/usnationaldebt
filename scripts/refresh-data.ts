@@ -48,15 +48,43 @@ async function exactBalanceOnOrBefore(date: string) {
   return { boundary: date, recordDate: row.record_date as string, total: Number(row.tot_pub_debt_out_amt) };
 }
 
+/** Treasury "Historical Debt Outstanding" — annual fiscal-year-end debt back to 1790. */
+const annualUrl =
+  "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_outstanding?sort=record_date&page%5Bsize%5D=500&fields=record_date,debt_outstanding_amt";
+
+/** Full daily Debt to the Penny series (1993-04-01 onward) as a compact CSV. */
+async function fetchDailyCsv(): Promise<string> {
+  const url = `${TREASURY_DTP}?sort=record_date&page%5Bsize%5D=10000&fields=record_date,tot_pub_debt_out_amt`;
+  const body = JSON.parse(await get(url));
+  if (body.meta["total-count"] > body.data.length) {
+    throw new Error(`Daily series pagination exceeded a single page (${body.meta["total-count"]} rows); extend fetchDailyCsv.`);
+  }
+  const rows = body.data.map((r: { record_date: string; tot_pub_debt_out_amt: string }) => `${r.record_date},${r.tot_pub_debt_out_amt}`);
+  return "record_date,tot_pub_debt_out_amt\n" + rows.join("\n") + "\n";
+}
+
+async function fetchAnnualCsv(): Promise<string> {
+  const body = JSON.parse(await get(annualUrl));
+  const rows = body.data.map((r: { record_date: string; debt_outstanding_amt: string }) => `${r.record_date},${r.debt_outstanding_amt}`);
+  return "record_date,debt_outstanding_amt\n" + rows.join("\n") + "\n";
+}
+
 async function main() {
   const files: Array<[string, Promise<string>]> = [
     ["data/debt-latest.json", get(latestUrl)],
     ["data/historical-debt.csv", get(fredCsv("GFDEBTN"))],
+    ["data/debt-annual.csv", fetchAnnualCsv()],
+    ["data/debt-daily.csv", fetchDailyCsv()],
     ["data/cpi.csv", get(fredCsv("CPIAUCSL"))],
+    ["data/cpi-historical.csv", get(fredCsv("CPIAUCNS"))],
     ["data/gdp.csv", get(fredCsv("GDP"))],
+    ["data/gdp-annual.csv", get(fredCsv("GDPA"))],
     ["data/population.csv", get(fredCsv("POPTHM"))],
     ["data/fiscal-receipts.csv", get(fredCsv("FYFR"))],
     ["data/fiscal-outlays.csv", get(fredCsv("FYONET"))],
+    ["data/fiscal-deficit.csv", get(fredCsv("FYFSD"))],
+    ["data/recessions.csv", get(fredCsv("USREC"))],
+    ["data/treasury-10y.csv", get(fredCsv("GS10"))],
   ];
 
   const transitionsPromise = Promise.all(TRANSITION_DATES.map(exactBalanceOnOrBefore));
@@ -90,8 +118,8 @@ async function main() {
         refreshedAt: new Date().toISOString(),
         files: [...written, "data/transitions.json"],
         sources: {
-          treasury: "Debt to the Penny (fiscaldata.treasury.gov)",
-          fred: ["GFDEBTN", "CPIAUCSL", "GDP", "POPTHM", "FYFR", "FYONET"],
+          treasury: ["Debt to the Penny (daily + transition balances)", "Historical Debt Outstanding (annual, 1790+)"],
+          fred: ["GFDEBTN", "CPIAUCSL", "CPIAUCNS", "GDP", "GDPA", "POPTHM", "FYFR", "FYONET", "FYFSD", "USREC", "GS10"],
         },
       },
       null,

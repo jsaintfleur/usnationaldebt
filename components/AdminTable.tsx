@@ -1,15 +1,16 @@
 "use client";
 import { useState } from "react";
 import { money, pct } from "@/lib/format";
-import type { AdminSummary } from "@/lib/types";
+import type { AdminSummary, BoundaryMethod } from "@/lib/types";
 
 type SortKey = "chrono" | "increase" | "percent" | "cagr";
 
 /**
- * Sortable administration comparison with a nominal / inflation-adjusted toggle.
- * Real values are CPI-U adjusted and always labeled with their base year.
- * Boundary markers: † exact Treasury daily balance, otherwise the quarter-end
- * observation immediately preceding the transition.
+ * Sortable administration comparison across all presidencies since 1789, with
+ * a nominal / inflation-adjusted toggle. Real values exist only where CPI
+ * coverage does (1913+); earlier rows show "—" rather than a fabricated
+ * adjustment. Boundary markers: † exact Treasury daily balance, ‡ annual
+ * fiscal-year-end record, § first available record (1790).
  */
 export default function AdminTable({ rows }: { rows: AdminSummary[] }) {
   const [basis, setBasis] = useState<"nominal" | "real">("nominal");
@@ -27,17 +28,24 @@ export default function AdminTable({ rows }: { rows: AdminSummary[] }) {
   });
 
   const sorted = [...rows];
-  if (sort !== "chrono") sorted.sort((a, b) => val(b)[sort] - val(a)[sort]);
+  if (sort !== "chrono") sorted.sort((a, b) => (val(b)[sort] ?? -Infinity) - (val(a)[sort] ?? -Infinity));
   else sorted.reverse();
 
-  const exact = (m: string) => (m === "treasury-daily" ? "†" : "");
+  const mark = (m: BoundaryMethod) =>
+    m === "treasury-daily" ? "†" : m === "annual-proxy" ? "‡" : m === "series-start-proxy" ? "§" : "";
+  const fmt = (v: number | null, kind: "money" | "pct") =>
+    v === null ? "—" : !Number.isFinite(v) ? "n/a" : kind === "money" ? money(v) : pct(v);
 
   return (
     <div className="panel tableWrap">
       <div className="toggleRow" role="tablist" aria-label="Dollar basis">
         <button role="tab" aria-selected={!real} className={!real ? "toggle active" : "toggle"} onClick={() => setBasis("nominal")}>Nominal dollars</button>
         <button role="tab" aria-selected={real} className={real ? "toggle active" : "toggle"} onClick={() => setBasis("real")}>Inflation-adjusted ({baseYear} dollars)</button>
-        <span className="toggleNote">{real ? `All dollar figures below are in ${baseYear} prices (CPI-U).` : "All dollar figures below are nominal (as reported at the time)."}</span>
+        <span className="toggleNote">
+          {real
+            ? `All dollar figures below are in ${baseYear} prices (CPI-U). Values before 1913 predate CPI records and show —.`
+            : "All dollar figures below are nominal (as reported at the time)."}
+        </span>
       </div>
       <table>
         <thead>
@@ -56,24 +64,27 @@ export default function AdminTable({ rows }: { rows: AdminSummary[] }) {
           {sorted.map((x) => {
             const v = val(x);
             return (
-              <tr key={x.president}>
+              <tr key={x.start}>
                 <td><b>{x.president}</b>{x.partial ? " · partial term" : ""}</td>
                 <td>{x.party}</td>
-                <td>{money(v.start)}{exact(x.startMethod)}</td>
-                <td>{money(v.end)}{exact(x.endMethod)}</td>
-                <td>{money(v.increase)}</td>
-                <td>{pct(v.percent)}</td>
-                <td>{pct(v.cagr)}</td>
-                <td>{money(v.daily)}</td>
+                <td>{fmt(v.start, "money")}{mark(x.startMethod)}</td>
+                <td>{fmt(v.end, "money")}{mark(x.endMethod)}</td>
+                <td>{fmt(v.increase, "money")}</td>
+                <td>{fmt(v.percent, "pct")}</td>
+                <td>{fmt(v.cagr, "pct")}</td>
+                <td>{fmt(v.daily, "money")}</td>
               </tr>
             );
           })}
         </tbody>
       </table>
       <div className="tableFoot">
-        † exact Treasury daily balance on the last business day at the transition (available from 2001 onward). Other
-        boundaries use the quarter-end observation immediately preceding the transition. Rate metrics use the elapsed time
-        between the two observation dates actually used.{real ? ` Real values are stated in ${baseYear} dollars using the BLS CPI-U annual average.` : ""}
+        † exact Treasury daily balance at the transition (available from 2001). ‡ preceding annual fiscal-year-end record
+        (used before quarterly coverage begins in 1966). § first available record — Washington took office in 1789, one
+        year before the earliest Treasury figure. Unmarked values use the quarter-end observation immediately preceding
+        the transition. Rate metrics use elapsed time between the observation dates actually used; annual-proxy boundaries
+        can differ from inauguration day by several months, so pre-1966 rate metrics are coarser.
+        {real ? ` Real values are stated in ${baseYear} dollars using the BLS CPI-U.` : ""}
       </div>
     </div>
   );

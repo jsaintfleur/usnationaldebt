@@ -9,8 +9,9 @@ jobs:
         with: {node-version: 22, cache: npm}
       - run: npm ci
       - run: npm run data:validate
-      # Prove the committed evaluation artifact is reproducible from committed data.
+      # Prove the committed evaluation artifacts are reproducible from committed data.
       - run: npm run models:evaluate
+      - run: npm run models:evaluate-political
       - run: npm test
       - run: npm run lint
       - run: npm run typecheck

@@ -1,5 +1,6 @@
-import LineChart from "@/components/LineChart";
-import { forecast, forecastMeta, evaluation } from "@/lib/data";
+import FiscalChart from "@/components/FiscalChart";
+import { forecast, forecastMeta, evaluation, history, politicalEvaluation } from "@/lib/data";
+import { BASE_YEAR } from "@/lib/inflation";
 import { money } from "@/lib/format";
 
 export default function Page() {
@@ -7,6 +8,13 @@ export default function Page() {
   const meta = forecastMeta();
   const ev = evaluation();
   const horizonLabel: Record<string, string> = { "1": "1 quarter", "4": "1 year", "20": "5 years" };
+  const pol = politicalEvaluation();
+  // Chart data: 15 years of observed quarterly history, then the model path.
+  const observed = history().slice(-60).map((p) => ({ d: p.date, v: p.debt }));
+  const modelPts = f.filter((x) => x.kind === "model").map((x) => ({ d: `${x.year}-03-31`, v: x.value }));
+  const anchor = observed[observed.length - 1];
+  const bandLow = [{ d: anchor.d, v: anchor.v }, ...f.filter((x) => x.kind === "model").map((x) => ({ d: `${x.year}-03-31`, v: x.low }))];
+  const bandHigh = [{ d: anchor.d, v: anchor.v }, ...f.filter((x) => x.kind === "model").map((x) => ({ d: `${x.year}-03-31`, v: x.high }))];
 
   return (
     <main className="wrap">
@@ -27,10 +35,20 @@ export default function Page() {
             <h2>20-year trajectory</h2>
             <span className="pill">Model-generated · nominal dollars</span>
           </div>
-          <LineChart values={f.map((x) => x.value)} />
+          <FiscalChart
+            primary={{ label: "Observed total public debt", points: observed }}
+            baseYear={BASE_YEAR}
+            overlays={[{ id: "model", label: "Model midpoint (dashed = forecast)", unit: "usd", color: "#15846d", points: modelPts, dash: true }]}
+            defaultVisible={["model"]}
+            band={{ low: bandLow, high: bandHigh, label: "empirical walk-forward range" }}
+            showControlStrips={false}
+            allowReal={false}
+            height={380}
+            exportName="us-debt-forecast"
+          />
           <div className="notice">
-            Historical values end at year zero ({meta.dataThrough}). Every later value is a model estimate — not observed
-            data and not a CBO projection. Longer horizons are substantially less certain.
+            Solid line: observed Treasury data through {meta.dataThrough}. Dashed line and shaded range: model estimates —
+            not observed data and not a CBO projection. Longer horizons are substantially less certain.
           </div>
         </div>
         <div className="panel">
@@ -88,6 +106,34 @@ export default function Page() {
           comparable across eras; lower is better, and long horizons naturally score far above 1. The production model is
           chosen by the lowest mean MASE across the 1-year and 5-year horizons and must not lose to the best naive
           baseline. Full metric table: <code>MODEL_COMPARISON.csv</code> in the repository.
+        </div>
+      </div>
+      <div className="panel">
+        <div className="panelHeader">
+          <h2>Do political variables help forecast debt?</h2>
+          <span className="pill">Evaluated, not assumed</span>
+        </div>
+        <div className="tableWrap">
+          <table>
+            <thead>
+              <tr><th>Feature set</th><th>Out-of-sample years</th><th>MAE (log growth)</th><th>RMSE</th><th>vs last-growth naive</th></tr>
+            </thead>
+            <tbody>
+              {[...pol.results].sort((a, b) => a.mae - b.mae).map((r) => (
+                <tr key={r.featureSet}>
+                  <td>{r.featureSet}{r.featureSet === pol.conclusion.bestFeatureSet ? " ★" : ""}</td>
+                  <td>{r.n}</td>
+                  <td>{r.mae.toFixed(4)}</td>
+                  <td>{r.rmse.toFixed(4)}</td>
+                  <td>{r.maeVsNaive.toFixed(2)}×</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="notice">
+          {pol.conclusion.interpretation} {pol.conclusion.causalCaveat} Design: {pol.design}. Full table:
+          {" "}<code>POLITICAL_MODEL_COMPARISON.csv</code>.
         </div>
       </div>
     </main>
