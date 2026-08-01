@@ -1,0 +1,1 @@
+import {NextResponse} from "next/server";import {summarize} from "@/lib/data";export function GET(){return NextResponse.json({data:summarize(),meta:{transitionRule:"most recent prior observation",causalAttribution:false}})}

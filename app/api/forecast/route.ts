@@ -1,0 +1,1 @@
+import {NextRequest,NextResponse} from "next/server";import {forecast} from "@/lib/data";export function GET(req:NextRequest){const years=Math.min(20,Math.max(1,Number(req.nextUrl.searchParams.get("years")??20)));return NextResponse.json({data:forecast(undefined,years),meta:{model:"trailing-10-year-cagr",official:false,interval:"sensitivity band"}})}
