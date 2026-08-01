@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { availableResolutions, computeChartStats, observationsInTrailingYears, resampleObservations } from "../lib/chart-stats";
+import { availableResolutions, computeChartStats, observationsBetween, observationsInTrailingYears, resampleObservations } from "../lib/chart-stats";
 
 const points = [
   { date: "2020-01-01", value: 10, realValue: 12 },
@@ -30,6 +30,11 @@ test("windows with fewer than two observations have no statistics", () => {
 
 test("range selection anchors to the latest observation", () => {
   assert.deepEqual(observationsInTrailingYears(points, 1).map((point) => point.date), ["2021-01-01", "2022-01-01"]);
+});
+
+test("explicit start and end dates are inclusive", () => {
+  assert.deepEqual(observationsBetween(points, "2020-04-01", "2021-01-01").map((point) => point.value), [11, 15]);
+  assert.deepEqual(observationsBetween(points, "2022-01-01", "2020-01-01"), []);
 });
 
 test("resolution options reflect actual coverage and annual sampling uses the last observation", () => {

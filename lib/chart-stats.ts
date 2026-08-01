@@ -53,6 +53,16 @@ export function observationsInTrailingYears(points: ChartObservation[], years: n
   return points.filter((point) => Date.parse(point.date) >= cutoff.getTime());
 }
 
+export function observationsBetween(points: ChartObservation[], start?: string, end?: string) {
+  const startMs = start ? Date.parse(start) : Number.NEGATIVE_INFINITY;
+  const endMs = end ? Date.parse(end) : Number.POSITIVE_INFINITY;
+  if ((start && !Number.isFinite(startMs)) || (end && !Number.isFinite(endMs)) || startMs > endMs) return [];
+  return points.filter((point) => {
+    const value = Date.parse(point.date);
+    return Number.isFinite(value) && value >= startMs && value <= endMs;
+  });
+}
+
 export type ChartResolution = "auto" | "annual" | "quarterly" | "daily";
 
 export function availableResolutions(points: ChartObservation[]): ChartResolution[] {

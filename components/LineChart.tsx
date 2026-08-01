@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, useMemo, useState } from "react";
-import { availableResolutions, computeChartStats, observationsInTrailingYears, resampleObservations, type ChartResolution } from "@/lib/chart-stats";
+import { availableResolutions, computeChartStats, observationsBetween, observationsInTrailingYears, resampleObservations, type ChartResolution } from "@/lib/chart-stats";
 
 type Interval = { low: number; high: number };
 type Marker = { index: number; label: string };
@@ -18,14 +18,17 @@ export default function LineChart({values,labels=values.map((_,i)=>String(i)),da
   const [active,setActive]=useState<number|null>(null);
   const [rangePreset,setRangePreset]=useState<RangePreset>(null);
   const [resolution,setResolution]=useState<ChartResolution>("auto");
+  const [customStart,setCustomStart]=useState("");
+  const [customEnd,setCustomEnd]=useState("");
   const sourceDates=dates??labels;
   const options=useMemo(()=>availableResolutions(values.map((value,index)=>({date:sourceDates[index],value}))),[sourceDates,values]);
   const rows=useMemo(()=>{
     const source=values.map((value,index)=>({date:sourceDates[index],label:labels[index],value,realValue:realValues?.[index],interval:intervals?.[index],originalIndex:index}));
     const ranged=observationsInTrailingYears(source,rangePreset);
-    const sampled=resampleObservations(ranged,resolution);
+    const dated=observationsBetween(ranged,customStart||undefined,customEnd||undefined);
+    const sampled=resampleObservations(dated,resolution);
     return sampled as typeof source;
-  },[values,sourceDates,labels,realValues,intervals,rangePreset,resolution]);
+  },[values,sourceDates,labels,realValues,intervals,rangePreset,resolution,customStart,customEnd]);
   const shownValues=rows.map(row=>row.value),shownLabels=rows.map(row=>row.label),shownIntervals=intervals?rows.map(row=>row.interval!).filter(Boolean):undefined;
   const stats=computeChartStats(rows);
   const shownMarkers=markers.flatMap(marker=>{const original=labels[marker.index];const index=shownLabels.indexOf(original);return index>=0?[{index,label:marker.label}]:[]});
@@ -44,7 +47,7 @@ export default function LineChart({values,labels=values.map((_,i)=>String(i)),da
   const ai=Math.min(active??shownValues.length-1,shownValues.length-1);
   const visibleForecastStart=forecastStart===undefined?undefined:rows.findIndex(row=>row.originalIndex>=forecastStart);
   return <div className={`intelChart ${dark?"dark":""} ${compact?"compact":""}`}>
-    {intervalControls&&<div className="chartControls"><div className="rangePresets" role="group" aria-label="Chart time range">{([1,5,10,25,50,100] as const).map(years=><button key={years} className={rangePreset===years?"active":""} onClick={()=>{setRangePreset(years);setActive(null)}}>{years}Y</button>)}<button className={rangePreset===null?"active":""} onClick={()=>{setRangePreset(null);setActive(null)}}>All</button></div><label className="resolutionPicker"><span>Resolution</span><select value={resolution} onChange={event=>{setResolution(event.target.value as ChartResolution);setActive(null)}}>{options.map(option=><option value={option} key={option}>{option[0].toUpperCase()+option.slice(1)}</option>)}</select></label></div>}
+    {intervalControls&&<div className="chartControls"><div className="rangePresets" role="group" aria-label="Chart time range">{([1,5,10,25,50,100] as const).map(years=><button key={years} className={rangePreset===years&&!customStart&&!customEnd?"active":""} onClick={()=>{setRangePreset(years);setCustomStart("");setCustomEnd("");setActive(null)}}>{years}Y</button>)}<button className={rangePreset===null&&!customStart&&!customEnd?"active":""} onClick={()=>{setRangePreset(null);setCustomStart("");setCustomEnd("");setActive(null)}}>All</button></div><div className="dateRangeFields"><label><span>Start date</span><input type="date" min={sourceDates[0]} max={customEnd||sourceDates.at(-1)} value={customStart||rows[0]?.date||sourceDates[0]} onChange={event=>{setRangePreset(null);setCustomStart(event.target.value);if(!customEnd)setCustomEnd(sourceDates.at(-1)??"");setActive(null)}}/></label><span aria-hidden="true">→</span><label><span>End date</span><input type="date" min={customStart||sourceDates[0]} max={sourceDates.at(-1)} value={customEnd||rows.at(-1)?.date||sourceDates.at(-1)} onChange={event=>{setRangePreset(null);if(!customStart)setCustomStart(sourceDates[0]??"");setCustomEnd(event.target.value);setActive(null)}}/></label></div><label className="resolutionPicker"><span>Resolution</span><select value={resolution} onChange={event=>{setResolution(event.target.value as ChartResolution);setActive(null)}}>{options.map(option=><option value={option} key={option}>{option[0].toUpperCase()+option.slice(1)}</option>)}</select></label></div>}
     <div className="chartLegend"><span><i className="legendLine observedLine"/>{seriesLabel}</span>{visibleForecastStart!==undefined&&visibleForecastStart>=0&&<span><i className="legendLine forecastLine"/>Model estimate</span>}{shownIntervals&&<span><i className="legendBand"/>90% interval</span>}</div>
     <svg viewBox={`0 0 ${w} ${h}`} role="img" aria-label={`${seriesLabel} over ${xLabel.toLowerCase()}, measured in ${yLabel}`} onMouseLeave={()=>setActive(null)}>
       <defs><linearGradient id={`fill-${uid}`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#347fec" stopOpacity=".22"/><stop offset="1" stopColor="#347fec" stopOpacity="0"/></linearGradient><pattern id={`forecast-${uid}`} width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill={dark?"#6e56cf18":"#7057e810"}/><line x1="0" y1="0" x2="0" y2="8" stroke="#8d78ef" strokeWidth="2"/></pattern></defs>
