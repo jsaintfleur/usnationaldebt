@@ -1,21 +1,37 @@
 # Methodology
 
-## Observations
+## Observations and dating
 
-Current totals come from Treasury's Debt to the Penny endpoint. Comparable history is GFDEBTN, a Treasury series distributed through FRED in millions of dollars; ingestion converts it to dollars.
+Current totals come from Treasury's Debt to the Penny endpoint. Comparable history is GFDEBTN (Treasury via FRED, millions of dollars, converted to dollars on load). FRED dates end-of-period quarterly series by the first day of the quarter — the row dated January 1 is the March 31 balance — so every observation is re-dated to its true quarter-end as-of date before any calculation. This matters for administration boundaries, inflation matching, and honest walk-forward evaluation.
 
 ## Administration assignment
 
-For a transition date, the system selects the latest quarterly observation whose date is not later than the transition. Start and end values therefore describe consistent quarter-end proxies, not inauguration-day balances. A current term ends at the runtime date and is labeled partial.
+From the 2001 inauguration onward, boundary values are the exact Treasury daily balance on the last business day on or before the transition (`data/transitions.json`). Earlier boundaries use the quarter-end observation immediately preceding the transition and are labeled proxies. The comparable series begins in 1966, so administrations that started earlier (Johnson and before) are excluded rather than silently backfilled. A current term ends at the latest quarterly observation and is labeled partial.
 
-Increase equals end minus start. Percent change equals increase divided by start. CAGR uses elapsed calendar days divided by 365.2425. Average daily increase divides the nominal increase by elapsed calendar days.
+Increase = end − start. Percent = increase ÷ start. CAGR and per-day averages use the elapsed days **between the two observation dates actually used** (÷ 365.2425 for years), so partial terms and proxy boundaries are not diluted by publication lag.
 
-These are period descriptions. Presidents do not independently control debt: Congress authorizes taxation and spending, while inherited statutes, economic conditions, emergencies, and interest obligations affect results.
+These are period descriptions, not causal attributions. Presidents do not independently control debt: Congress authorizes taxation and spending, while inherited statutes, economic conditions, emergencies, and interest obligations shape every period.
 
-## Forecast
+## Nominal and real dollars
 
-The production baseline calculates the compound annual growth rate from the trailing ten years and recursively projects the last observation. Low/high paths subtract/add 1.8 percentage points to annual growth. They are sensitivity bounds, not calibrated confidence intervals or government projections.
+Nominal dollars are amounts as reported at the time. Real dollars restate purchasing power in **2025 prices** using BLS CPI-U (CPIAUCSL):
 
-## Revision policy
+```
+real = nominal × (2025 average CPI ÷ CPI at observation month)
+```
 
-Official upstream revisions are accepted on refresh, then validated and reviewed in source control. Historic snapshot commits make changes auditable.
+The base year is the latest calendar year with a (near-)complete CPI record — October 2025 was never published due to the federal shutdown, so the 2025 average uses the 11 published months (the loader refuses fewer than 10). The base year is a single documented constant (`lib/inflation.ts BASE_YEAR`) applied consistently everywhere and changed only deliberately. CPI-U was chosen as the primary deflator because it is the most widely recognized household purchasing-power index; the GDP price index or PCE deflator would shift long-horizon levels by a few percent without changing qualitative rankings. Debt-to-GDP requires no separate deflation: nominal debt is divided by nominal GDP from the same period, so the price level cancels. Every inflation-adjusted figure in the UI states its base year; no real value is ever displayed unlabeled, and no series is adjusted twice.
+
+## Forecasting
+
+Target: nominal total public debt, quarterly. Eight candidates — last-value naive, drift, last-growth naive, full-sample mean log-growth, trailing 5y and 10y CAGR, 10-year linear trend, 10-year exponential trend — are evaluated by **rolling-origin walk-forward validation**: at each of 160 origins (first origin after 80 quarters of history) each model is refitted on data up to that origin only and scored out-of-sample at 1-quarter, 1-year, and 5-year horizons (MAE, RMSE, MAPE, sMAPE, MASE, bias). The production model minimizes mean MASE across the 1-year and 5-year horizons and must not lose to the best naive baseline. Current selection: mean log-growth (see `MODEL_CARD.md`, `MODEL_COMPARISON.csv`, `data/model-evaluation.json`).
+
+Displayed ranges are the empirical 10th–90th percentile of out-of-sample annualized-growth errors at the 5-year horizon, estimated on the first half of origins and coverage-verified on the second half (observed 79% vs 80% nominal). They are evidence-based ranges — not arbitrary sensitivity bands, not formal Bayesian intervals, and not official projections. Because the target is nominal, forecasts embed price-level behavior and are not purchasing-power statements.
+
+## Scenario engine
+
+The Scenario Lab is a deterministic annual cash-flow identity, explicitly distinct from the validated forecast models: interest = average rate × start-of-year debt; total outlays = primary outlays + interest (the baseline outlay total is split once so interest is never double-counted); deficit = outlays − receipts; surpluses reduce debt. Users set real growth rates plus inflation; nominal paths compound both ((1+real)(1+inflation)−1), and real outputs are restated in 2025 dollars by deflating cumulative scenario inflation. Starting conditions come from committed Treasury, BEA, OMB, and Census snapshots — nothing is hard-coded.
+
+## Validation and revision policy
+
+Automated checks reject duplicate or non-increasing dates, invalid numbers, short coverage, Treasury component mismatches, sparse base-year CPI, and implausible macro baselines. Official upstream revisions are accepted on refresh, then validated and reviewed in source control; snapshot commits make every change auditable. The scheduled refresh workflow commits only after validation, evaluation, and tests pass.

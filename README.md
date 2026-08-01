@@ -1,45 +1,40 @@
 # DebtScope AI
 
-DebtScope AI is a premium, nonpartisan U.S. national-debt intelligence platform. It combines a current Treasury snapshot, a comparable historical series, administration-period calculations, transparent forecasts, and an interactive scenario laboratory.
+DebtScope AI is a nonpartisan U.S. national-debt intelligence platform: a current Treasury snapshot, a comparable six-decade historical series with nominal and inflation-adjusted views, administration-period calculations with exact transition balances, walk-forward-validated trend forecasts with empirical uncertainty ranges, and a clearly labeled deterministic scenario laboratory.
 
 **Live production:** [debtscope-ai.vercel.app](https://debtscope-ai.vercel.app)
 
+## What "AI" means here — honestly
+
+Forecasts come from transparent statistical time-series models selected by **rolling-origin walk-forward validation** against naive baselines (160 historical origins; selection by out-of-sample MASE; the winner must beat the best naive baseline). Uncertainty ranges are empirical out-of-sample error quantiles with verified holdout coverage. The Scenario Lab is a deterministic fiscal calculator and is labeled as such. There are no neural networks and no black boxes. Full details: [MODEL_CARD.md](MODEL_CARD.md), [METHODOLOGY.md](METHODOLOGY.md), [MODEL_COMPARISON.csv](MODEL_COMPARISON.csv).
+
 ## Architecture
 
-- Next.js 16 App Router and TypeScript
-- Server-rendered analytical pages and typed JSON route handlers
-- Dependency-free accessible SVG charts
-- Official source snapshots committed for resilient and reproducible builds
-- Refresh and validation scripts suitable for scheduled GitHub Actions
-- Vercel-ready single-service deployment
-
-## Data sources
-
-- U.S. Treasury Fiscal Data, **Debt to the Penny**: daily total, public, and intragovernmental debt
-- Federal Reserve Bank of St. Louis, **GFDEBTN**: quarterly Treasury total-public-debt series
-- BEA GDP and BLS CPI via FRED are documented future integrations
-
-No production value is fabricated. Snapshot files are exact upstream responses and retain source dates. See [DATA_SOURCES.md](DATA_SOURCES.md) and [METHODOLOGY.md](METHODOLOGY.md).
+- Next.js 16 App Router + TypeScript, single-service Vercel deployment
+- Committed authoritative snapshots (Treasury Fiscal Data + FRED: BLS, BEA, OMB, Census) for reproducible builds — see [DATA_SOURCES.md](DATA_SOURCES.md) and [DATA_LINEAGE.md](DATA_LINEAGE.md)
+- `scripts/refresh-data.ts` → `scripts/validate-data.ts` → `scripts/evaluate-models.ts` pipeline; the scheduled workflow commits refreshed data only when validation, evaluation, and tests pass
+- Production forecasts are generated from the committed, versioned evaluation artifact (`data/model-evaluation.json`); model version, data-through date, and interval coverage are displayed in the UI and returned by the API
+- Nominal and inflation-adjusted (2025-dollar, BLS CPI-U) views for history, administrations, and scenarios — every real figure states its base year
 
 ## Local setup
 
 ```bash
 npm install
 npm run data:validate
+npm run models:evaluate
 npm test
 npm run dev
 ```
 
-Open `http://localhost:3000`. No environment variable is required for the included sources. An optional `FRED_API_KEY` is reserved for future multi-series ingestion.
+Open `http://localhost:3000`. No environment variables are required.
 
-## Data ingestion
+## Pipeline
 
 ```bash
-npm run data:refresh
-npm run data:validate
+npm run data:refresh      # rewrite all snapshots from Treasury/FRED
+npm run data:validate     # data-quality gate (must pass before commit)
+npm run models:evaluate   # walk-forward evaluation → data/model-evaluation.json + MODEL_COMPARISON.csv
 ```
-
-The refresh command downloads official Treasury/FRED data. The validator checks numeric integrity, duplicates, date ordering, minimum coverage, and component reconciliation.
 
 ## Quality gates
 
@@ -50,22 +45,24 @@ npm run typecheck
 npm run build
 ```
 
+CI runs all of the above plus a from-scratch re-derivation of the evaluation artifact on every push.
+
 ## API
 
 - `GET /api/latest`
 - `GET /api/history?start=YYYY-MM-DD&end=YYYY-MM-DD`
-- `GET /api/administrations`
-- `GET /api/forecast?years=20`
-- `GET /api/scenario?years=10&spendingGrowth=5&revenueGrowth=4`
+- `GET /api/administrations` — nominal + real (2025 $) fields, boundary provenance
+- `GET /api/forecast?years=20` — production model output with full metadata
+- `GET /api/scenario?years=10&realSpendingGrowth=2&realRevenueGrowth=1.5&inflation=2.3&interestRate=3.3&realGdpGrowth=1.9`
 - `GET /api/sources`
 
-## Deployment
+## Audit trail
 
-Import the repository in Vercel. Framework detection and build settings require no override. Run `npm run build`, output `.next`, Node.js 22. Preview and production deploys are supported without secrets.
+This application was audited end-to-end as an ML product; see [ML_AUDIT.md](ML_AUDIT.md) (verdict, maturity scores before/after) and [ML_GAP_REGISTER.md](ML_GAP_REGISTER.md) (every gap, severity, and status).
 
 ## Limitations
 
-The embedded comparable historical series begins in 1966, so pre-Johnson administrations are not presented. Quarterly transition proxies are used. GDP, CPI, deficits, interest expense, recession months, and official CBO projections are documented but not yet integrated. The forecast band is a sensitivity range rather than a statistically calibrated confidence interval. See [MODEL_CARD.md](MODEL_CARD.md).
+The comparable series begins 1966-Q1, so administrations beginning earlier are excluded. Models are univariate trend models; they do not represent legislation, debt-ceiling mechanics, or recessions (see the MODEL_CARD roadmap). October 2025 CPI was never published by BLS (federal shutdown) and is handled explicitly. Model forecasts are not official government projections.
 
 ## License
 

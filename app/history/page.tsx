@@ -1,2 +1,20 @@
-import LineChart from "@/components/LineChart";import {history} from "@/lib/data";import {money} from "@/lib/format";
-export default function Page(){const h=history();return <main className="wrap"><header className="pageHead"><div className="eyebrow">Historical explorer</div><h1>Six decades of fiscal history.</h1><p>Quarter-end total public debt. Daily observations are available from Treasury from April 1993 onward via the API.</p></header><div className="panel"><div className="panelHeader"><h2>Total public debt</h2><span className="pill">Nominal USD · linear</span></div><LineChart values={h.map(x=>x.debt)}/></div><div className="panel tableWrap"><table><thead><tr><th>Date</th><th>Total public debt</th><th>Frequency</th><th>Source</th></tr></thead><tbody>{h.slice(-20).reverse().map(x=><tr key={x.date}><td>{x.date}</td><td>{money(x.debt)}</td><td>Quarterly, end period</td><td>U.S. Treasury / FRED</td></tr>)}</tbody></table></div></main>}
+import HistoryExplorer from "@/components/HistoryExplorer";
+import { history } from "@/lib/data";
+import { toReal, BASE_YEAR } from "@/lib/inflation";
+
+export default function Page() {
+  const points = history().map((x) => ({ date: x.date, nominal: x.debt, real: toReal(x.debt, x.date) }));
+  return (
+    <main className="wrap">
+      <header className="pageHead">
+        <div className="eyebrow">Historical explorer</div>
+        <h1>Six decades of fiscal history.</h1>
+        <p>
+          Quarter-end total public debt, shown in nominal dollars, in inflation-adjusted {BASE_YEAR} dollars (BLS CPI-U),
+          or as an index. Daily observations are available from Treasury from April 1993 onward via the API.
+        </p>
+      </header>
+      <HistoryExplorer points={points} baseYear={BASE_YEAR} />
+    </main>
+  );
+}

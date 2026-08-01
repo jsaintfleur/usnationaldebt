@@ -1,2 +1,96 @@
-"use client";import {useState} from "react";import {money} from "@/lib/format";import LineChart from "./LineChart";
-const start=39.1e12;export default function ScenarioLab(){const [spend,setSpend]=useState(5),[revenue,setRevenue]=useState(4),[gdp,setGdp]=useState(3.8),[rate,setRate]=useState(4),[years,setYears]=useState(10);let debt=start,g=31.9e12,rev=5.3e12,out=7e12;const points=[debt];for(let i=0;i<years;i++){rev*=1+revenue/100;out*=1+spend/100;const interest=debt*rate/100;debt+=Math.max(0,out+interest*.22-rev);g*=1+gdp/100;points.push(debt)}const baseline=start*Math.pow(1.064,years);return <div className="forecastGrid"><div className="panel"><div className="panelHeader"><h2>Scenario trajectory</h2><span className="pill">User-created</span></div><LineChart values={points}/><div className="grid4"><div className="card"><label>End debt</label><strong>{money(debt)}</strong></div><div className="card"><label>Debt / GDP</label><strong>{(debt/g*100).toFixed(0)}%</strong></div><div className="card"><label>vs baseline</label><strong>{money(debt-baseline)}</strong></div><div className="card"><label>Horizon</label><strong>{years} yrs</strong></div></div></div><div className="panel controls"><h2>Assumptions</h2>{[["Spending growth",spend,setSpend,0,10],["Revenue growth",revenue,setRevenue,0,10],["GDP growth",gdp,setGdp,0,8],["Average interest rate",rate,setRate,0,10],["Forecast horizon",years,setYears,1,20]].map(([label,v,set,min,max])=><div className="control" key={String(label)}><label><span>{label as string}</span><b>{v as number}{label==="Forecast horizon"?" years":"%"}</b></label><input aria-label={label as string} type="range" min={min as number} max={max as number} step={label==="Forecast horizon"?1:.1} value={v as number} onChange={e=>(set as (v:number)=>void)(Number(e.target.value))}/></div>)}<button className="button" onClick={()=>{setSpend(5);setRevenue(4);setGdp(3.8);setRate(4);setYears(10)}}>Reset baseline</button><div className="notice">Simplified annual cash-flow model. It excludes policy feedback, maturity structure, and stochastic recession effects.</div></div></div>}
+"use client";
+import { useState } from "react";
+import { money } from "@/lib/format";
+import { runScenario, SCENARIO_DEFAULTS, type ScenarioBaseline } from "@/lib/scenario";
+import LineChart from "./LineChart";
+
+/**
+ * Client Scenario Lab. All starting conditions arrive as props from committed
+ * authoritative snapshots (see lib/baseline.ts); the engine itself is the same
+ * pure module the /api/scenario route uses, so the two can never drift.
+ * `baselinePath` is the production walk-forward model's nominal debt path,
+ * indexed by horizon year, used for the "vs model baseline" comparison.
+ */
+export default function ScenarioLab({ baseline, baselinePath }: { baseline: ScenarioBaseline; baselinePath: number[] }) {
+  const [input, setInput] = useState(SCENARIO_DEFAULTS);
+  const [view, setView] = useState<"nominal" | "real">("nominal");
+  const result = runScenario(baseline, input);
+  const end = result[result.length - 1];
+  const series = view === "nominal" ? [baseline.debt, ...result.map((r) => r.debt)] : [(baseline.debt * baseline.cpiBase) / baseline.cpiLatest, ...result.map((r) => r.debtReal)];
+  const modelBaseline = baselinePath[Math.min(input.years, baselinePath.length - 1)];
+
+  const sliders: Array<{ key: keyof typeof input; label: string; min: number; max: number; step: number; unit: string }> = [
+    { key: "realSpendingGrowthPct", label: "Real primary-spending growth", min: -2, max: 6, step: 0.1, unit: "%" },
+    { key: "realRevenueGrowthPct", label: "Real revenue growth", min: -2, max: 6, step: 0.1, unit: "%" },
+    { key: "realGdpGrowthPct", label: "Real GDP growth", min: -1, max: 5, step: 0.1, unit: "%" },
+    { key: "inflationPct", label: "Inflation (CPI)", min: 0, max: 8, step: 0.1, unit: "%" },
+    { key: "avgInterestRatePct", label: "Average interest rate on debt", min: 0, max: 8, step: 0.1, unit: "%" },
+    { key: "years", label: "Horizon", min: 1, max: 20, step: 1, unit: " years" },
+  ];
+
+  return (
+    <div className="forecastGrid">
+      <div className="panel">
+        <div className="panelHeader">
+          <h2>Scenario trajectory</h2>
+          <span className="pill">Deterministic calculator · user-created</span>
+        </div>
+        <div className="toggleRow" role="tablist" aria-label="Dollar basis">
+          <button role="tab" aria-selected={view === "nominal"} className={view === "nominal" ? "toggle active" : "toggle"} onClick={() => setView("nominal")}>Nominal dollars</button>
+          <button role="tab" aria-selected={view === "real"} className={view === "real" ? "toggle active" : "toggle"} onClick={() => setView("real")}>Real {baseline.baseYear} dollars</button>
+        </div>
+        <LineChart values={series} />
+        <div className="grid4">
+          <div className="card">
+            <label>End debt ({view === "nominal" ? "nominal" : `${baseline.baseYear} $`})</label>
+            <strong>{money(view === "nominal" ? end.debt : end.debtReal)}</strong>
+            <small>{view === "nominal" ? `${money(end.debtReal)} in ${baseline.baseYear} dollars` : `${money(end.debt)} nominal`}</small>
+          </div>
+          <div className="card">
+            <label>Debt / GDP</label>
+            <strong>{end.debtToGdp.toFixed(0)}%</strong>
+            <small>Same-period nominal ratio</small>
+          </div>
+          <div className="card">
+            <label>Per resident</label>
+            <strong>{money(view === "nominal" ? end.perCapita : end.perCapitaReal)}</strong>
+            <small>{view === "nominal" ? "nominal" : `in ${baseline.baseYear} dollars`}</small>
+          </div>
+          <div className="card">
+            <label>vs model baseline</label>
+            <strong>{money(end.debt - modelBaseline)}</strong>
+            <small>Against the walk-forward production forecast (nominal)</small>
+          </div>
+        </div>
+      </div>
+      <div className="panel controls">
+        <h2>Assumptions</h2>
+        {sliders.map((s) => (
+          <div className="control" key={s.key}>
+            <label>
+              <span>{s.label}</span>
+              <b>{input[s.key]}{s.unit}</b>
+            </label>
+            <input
+              aria-label={s.label}
+              type="range"
+              min={s.min}
+              max={s.max}
+              step={s.step}
+              value={input[s.key]}
+              onChange={(e) => setInput({ ...input, [s.key]: Number(e.target.value) })}
+            />
+          </div>
+        ))}
+        <button className="button" onClick={() => setInput(SCENARIO_DEFAULTS)}>Reset assumptions</button>
+        <div className="notice">
+          Deterministic annual cash-flow identity — not machine learning. Growth sliders are real rates; inflation is added to
+          form nominal paths, and real outputs are stated in {baseline.baseYear} dollars. Starting conditions: Treasury debt
+          {" "}{money(baseline.debt)} ({baseline.debtAsOf}), BEA GDP {money(baseline.gdp)}, FY receipts {money(baseline.receipts)} and
+          outlays {money(baseline.outlays)} (fiscal year ending {baseline.fiscalYearEnd.slice(0, 10)}). Excludes policy feedback,
+          maturity structure, and recession dynamics. Outputs depend entirely on your assumptions.
+        </div>
+      </div>
+    </div>
+  );
+}

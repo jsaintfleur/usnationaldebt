@@ -1,0 +1,26 @@
+model_id,model_name,role,horizon_quarters,n_forecasts,mae_usd,rmse_usd,mape_pct,smape_pct,mase,bias_usd,production
+naive-last,"Last observed value",baseline,1,160,237732256250,418046561704,1.893,1.921,3.0808,-231741281250,no
+naive-last,"Last observed value",baseline,4,157,912547118443,1281125243470,7.063,7.392,12.1612,-911096481500,no
+naive-last,"Last observed value",baseline,20,141,4378767880258,5570302078234,29.826,35.751,67.8504,-4378767880258,no
+naive-drift,"Last value + average historical drift",baseline,1,160,194696023686,369502626985,1.439,1.456,2.4157,-164711358107,no
+naive-drift,"Last value + average historical drift",baseline,4,157,664533871723,1031123300180,4.870,5.047,8.6105,-649777870303,no
+naive-drift,"Last value + average historical drift",baseline,20,141,3260416904182,4408253258781,20.650,23.739,48.9699,-3242006523223,no
+naive-last-growth,"Last observed quarterly growth rate",baseline,1,160,197994847434,452386230030,1.298,1.300,2.2692,5285447855,no
+naive-last-growth,"Last observed quarterly growth rate",baseline,4,157,666362290165,1620546508893,4.059,4.003,7.6093,49506385086,no
+naive-last-growth,"Last observed quarterly growth rate",baseline,20,141,5452972130823,28064884428832,27.156,21.347,65.8588,2436008210481,no
+mean-log-growth,"Historical average growth (full sample)",candidate,1,160,153301604187,305311417990,1.107,1.108,1.8818,32581471842,yes
+mean-log-growth,"Historical average growth (full sample)",candidate,4,157,407661731602,643298756412,3.167,3.144,5.4898,141064849091,yes
+mean-log-growth,"Historical average growth (full sample)",candidate,20,141,1529785268457,1964976301552,13.545,12.462,26.2388,757055643322,yes
+cagr-5y,"Trailing 5-year CAGR",candidate,1,160,155602996322,320529404939,1.090,1.093,1.8700,11766513935,no
+cagr-5y,"Trailing 5-year CAGR",candidate,4,157,441276197081,751207967555,3.361,3.367,5.8601,65446863892,no
+cagr-5y,"Trailing 5-year CAGR",candidate,20,141,2617088703072,3368914931156,19.629,18.778,41.3699,165309863375,no
+cagr-10y,"Trailing 10-year CAGR",candidate,1,160,156445899464,311569526564,1.154,1.156,1.9539,8083643535,no
+cagr-10y,"Trailing 10-year CAGR",candidate,4,157,434993067730,693455712708,3.603,3.598,6.1710,43580696264,no
+cagr-10y,"Trailing 10-year CAGR",candidate,20,141,2159065944757,2673301230100,19.285,18.092,38.4784,439281073117,no
+linear-trend-10y,"Linear trend (10-year window)",candidate,1,160,707545267666,1037495172356,5.769,5.951,9.3250,-472624288121,no
+linear-trend-10y,"Linear trend (10-year window)",candidate,4,157,990764942525,1415231476993,7.798,8.126,13.4191,-683114900975,no
+linear-trend-10y,"Linear trend (10-year window)",candidate,20,141,2418952780072,3332399812011,17.036,18.967,39.1208,-2014938106136,no
+exp-trend-10y,"Exponential trend (log-linear, 10-year window)",candidate,1,160,781131669409,1052396003209,6.518,6.456,10.5696,34428191024,no
+exp-trend-10y,"Exponential trend (log-linear, 10-year window)",candidate,4,157,1099470569133,1425290990458,9.072,8.924,15.3858,58010541098,no
+exp-trend-10y,"Exponential trend (log-linear, 10-year window)",candidate,20,141,2987731065977,3625841964169,25.101,23.222,50.8079,648476171862,no
+# validation: rolling-origin walk-forward, 160 origins, min train 80 quarters, data through 2026-03-31

@@ -1,0 +1,24 @@
+{
+  "refreshedAt": "2026-08-01T18:38:44.226Z",
+  "files": [
+    "data/debt-latest.json",
+    "data/historical-debt.csv",
+    "data/cpi.csv",
+    "data/gdp.csv",
+    "data/population.csv",
+    "data/fiscal-receipts.csv",
+    "data/fiscal-outlays.csv",
+    "data/transitions.json"
+  ],
+  "sources": {
+    "treasury": "Debt to the Penny (fiscaldata.treasury.gov)",
+    "fred": [
+      "GFDEBTN",
+      "CPIAUCSL",
+      "GDP",
+      "POPTHM",
+      "FYFR",
+      "FYONET"
+    ]
+  }
+}

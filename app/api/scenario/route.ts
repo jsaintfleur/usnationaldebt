@@ -1,1 +1,32 @@
-import {NextRequest,NextResponse} from "next/server";export function GET(r:NextRequest){const q=r.nextUrl.searchParams,years=Math.min(20,Math.max(1,Number(q.get("years")??10))),spend=Number(q.get("spendingGrowth")??5)/100,revenue=Number(q.get("revenueGrowth")??4)/100,rate=Number(q.get("interestRate")??4)/100,gdpGrowth=Number(q.get("gdpGrowth")??3.8)/100;let debt=39.1e12,gdp=31.9e12,receipts=5.3e12,outlays=7e12;const data=[];for(let year=1;year<=years;year++){receipts*=1+revenue;outlays*=1+spend;debt+=Math.max(0,outlays+debt*rate*.22-receipts);gdp*=1+gdpGrowth;data.push({year,debt,gdp,debtToGdp:debt/gdp*100,receipts,outlays})}return NextResponse.json({data,meta:{official:false,kind:"user-scenario",warning:"Analytical estimate, not an official projection"}})}
+import { NextRequest, NextResponse } from "next/server";
+import { runScenario, SCENARIO_DEFAULTS } from "@/lib/scenario";
+import { scenarioBaseline } from "@/lib/baseline";
+
+export function GET(r: NextRequest) {
+  const q = r.nextUrl.searchParams;
+  const num = (key: string, fallback: number) => {
+    const v = Number(q.get(key) ?? fallback);
+    return Number.isFinite(v) ? v : fallback;
+  };
+  const baseline = scenarioBaseline();
+  const input = {
+    years: Math.min(20, Math.max(1, num("years", SCENARIO_DEFAULTS.years))),
+    realRevenueGrowthPct: Math.min(10, Math.max(-5, num("realRevenueGrowth", SCENARIO_DEFAULTS.realRevenueGrowthPct))),
+    realSpendingGrowthPct: Math.min(10, Math.max(-5, num("realSpendingGrowth", SCENARIO_DEFAULTS.realSpendingGrowthPct))),
+    realGdpGrowthPct: Math.min(8, Math.max(-3, num("realGdpGrowth", SCENARIO_DEFAULTS.realGdpGrowthPct))),
+    inflationPct: Math.min(10, Math.max(0, num("inflation", SCENARIO_DEFAULTS.inflationPct))),
+    avgInterestRatePct: Math.min(10, Math.max(0, num("interestRate", SCENARIO_DEFAULTS.avgInterestRatePct))),
+  };
+  return NextResponse.json({
+    data: runScenario(baseline, input),
+    meta: {
+      official: false,
+      kind: "user-scenario",
+      engine: "deterministic annual cash-flow identity (not machine learning)",
+      baseline,
+      input,
+      units: { debt: "nominal USD", debtReal: `USD in ${baseline.baseYear} prices` },
+      warning: "Analytical estimate driven entirely by user assumptions; not an official projection.",
+    },
+  });
+}
