@@ -1,0 +1,10 @@
+import test from "node:test";import assert from "node:assert/strict";import {realValue,cpiSeries} from "../lib/real";import {classification,congresses,controlPeriods,fiscalYearOwner,presidentAt} from "../lib/government";import {history} from "../lib/data";import {evaluateModels,validatedForecast} from "../lib/forecasting";
+test("base-year value is unchanged at base CPI",()=>{const c=cpiSeries(),p=c.at(-1)!;assert.ok(Math.abs(realValue(100,p.date,2026,c)-100)<1e-9)});
+test("older nominal dollars adjust upward in 2026 dollars",()=>assert.ok(realValue(100,"1980-01-01")>100));
+test("missing pre-series CPI throws",()=>assert.throws(()=>realValue(100,"1900-01-01")));
+test("government classification covers unified, divided, split",()=>{assert.equal(classification("Democratic","Democratic","Democratic"),"Democratic unified government");assert.match(classification("Republican","Democratic","Democratic"),/divided/);assert.equal(classification("Republican","Democratic","Republican"),"Split Congress")});
+test("Congress dates and control periods are ordered",()=>{assert.equal(congresses.length,31);assert.ok(congresses.every(c=>c.start<c.end));assert.ok(controlPeriods().every(p=>p.start<p.end&&p.days>0))});
+test("January 3 and January 20 transitions resolve separately",()=>{assert.equal(congresses.find(c=>c.start==="2025-01-03")?.congress,119);assert.equal(presidentAt("2025-01-19").president,"Joe Biden");assert.equal(presidentAt("2025-01-20").president,"Donald Trump (II)")});
+test("fiscal year uses October 1 control-at-time rule",()=>assert.equal(fiscalYearOwner(2025).president,"Joe Biden"));
+test("walk-forward metrics are finite and reproducible",()=>{const a=evaluateModels(history()),b=evaluateModels(history());assert.deepEqual(a,b);assert.ok(a.every(x=>Number.isFinite(x.mae)&&x.mae>0))});
+test("empirical forecast intervals contain point forecasts",()=>assert.ok(validatedForecast(history(),5).forecast.every(x=>x.low<=x.value&&x.high>=x.value)));
