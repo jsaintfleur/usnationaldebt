@@ -1,31 +1,36 @@
 "use client";
 import { useState } from "react";
-import { money } from "@/lib/format";
-import { runScenario, SCENARIO_DEFAULTS, type ScenarioBaseline } from "@/lib/scenario";
-import LineChart from "./LineChart";
+import { money, pct } from "@/lib/format";
+import { runScenario, defaultsFor, type ScenarioBaseline } from "@/lib/scenario";
+import FiscalChart from "./FiscalChart";
 
 /**
  * Client Scenario Lab. All starting conditions arrive as props from committed
- * authoritative snapshots (see lib/baseline.ts); the engine itself is the same
- * pure module the /api/scenario route uses, so the two can never drift.
- * `baselinePath` is the production walk-forward model's nominal debt path,
- * indexed by horizon year, used for the "vs model baseline" comparison.
+ * authoritative snapshots, anchored at the last complete fiscal year (see
+ * lib/baseline.ts); the engine is the same pure module the /api/scenario route
+ * uses, so the two can never drift. `baselinePath` is the production
+ * walk-forward model's nominal debt path as {year, value} pairs, matched to
+ * the scenario's end year by label.
  */
-export default function ScenarioLab({ baseline, baselinePath }: { baseline: ScenarioBaseline; baselinePath: number[] }) {
-  const [input, setInput] = useState(SCENARIO_DEFAULTS);
-  const [view, setView] = useState<"nominal" | "real">("nominal");
+export default function ScenarioLab({ baseline, baselinePath }: { baseline: ScenarioBaseline; baselinePath: Array<{ year: number; value: number }> }) {
+  const defaults = defaultsFor(baseline);
+  const [input, setInput] = useState(defaults);
   const result = runScenario(baseline, input);
   const end = result[result.length - 1];
-  const series = view === "nominal" ? [baseline.debt, ...result.map((r) => r.debt)] : [(baseline.debt * baseline.cpiBase) / baseline.cpiLatest, ...result.map((r) => r.debtReal)];
-  const modelBaseline = baselinePath[Math.min(input.years, baselinePath.length - 1)];
+  const anchorReal = (baseline.debt * baseline.cpiBase) / baseline.cpiAnchor;
+  const points = [
+    { d: baseline.fiscalYearEnd, v: baseline.debt, r: anchorReal },
+    ...result.map((r) => ({ d: `${r.year}-09-30`, v: r.debt, r: r.debtReal })),
+  ];
+  const modelAtEnd = baselinePath.find((p) => p.year === end.year) ?? baselinePath[baselinePath.length - 1];
 
   const sliders: Array<{ key: keyof typeof input; label: string; min: number; max: number; step: number; unit: string }> = [
     { key: "realSpendingGrowthPct", label: "Real primary-spending growth", min: -2, max: 6, step: 0.1, unit: "%" },
     { key: "realRevenueGrowthPct", label: "Real revenue growth", min: -2, max: 6, step: 0.1, unit: "%" },
     { key: "realGdpGrowthPct", label: "Real GDP growth", min: -1, max: 5, step: 0.1, unit: "%" },
-    { key: "inflationPct", label: "Inflation (CPI)", min: 0, max: 8, step: 0.1, unit: "%" },
+    { key: "inflationPct", label: "Inflation (CPI)", min: -2, max: 8, step: 0.1, unit: "%" },
     { key: "avgInterestRatePct", label: "Average interest rate on debt", min: 0, max: 8, step: 0.1, unit: "%" },
-    { key: "years", label: "Horizon", min: 1, max: 20, step: 1, unit: " years" },
+    { key: "years", label: "Horizon", min: 1, max: 20, step: 1, unit: " fiscal years" },
   ];
 
   return (
@@ -35,16 +40,18 @@ export default function ScenarioLab({ baseline, baselinePath }: { baseline: Scen
           <h2>Scenario trajectory</h2>
           <span className="pill">Deterministic calculator · user-created</span>
         </div>
-        <div className="toggleRow" role="tablist" aria-label="Dollar basis">
-          <button role="tab" aria-selected={view === "nominal"} className={view === "nominal" ? "toggle active" : "toggle"} onClick={() => setView("nominal")}>Nominal dollars</button>
-          <button role="tab" aria-selected={view === "real"} className={view === "real" ? "toggle active" : "toggle"} onClick={() => setView("real")}>Real {baseline.baseYear} dollars</button>
-        </div>
-        <LineChart values={series} />
+        <FiscalChart
+          primary={{ label: "Scenario debt path", points, color: "#a87719" }}
+          baseYear={baseline.baseYear}
+          showControlStrips={false}
+          height={330}
+          exportName="debtscope-scenario"
+        />
         <div className="grid4">
           <div className="card">
-            <label>End debt ({view === "nominal" ? "nominal" : `${baseline.baseYear} $`})</label>
-            <strong>{money(view === "nominal" ? end.debt : end.debtReal)}</strong>
-            <small>{view === "nominal" ? `${money(end.debtReal)} in ${baseline.baseYear} dollars` : `${money(end.debt)} nominal`}</small>
+            <label>End debt · FY{end.year}</label>
+            <strong>{money(end.debt)}</strong>
+            <small>{money(end.debtReal)} in {baseline.baseYear} dollars</small>
           </div>
           <div className="card">
             <label>Debt / GDP</label>
@@ -53,13 +60,13 @@ export default function ScenarioLab({ baseline, baselinePath }: { baseline: Scen
           </div>
           <div className="card">
             <label>Per resident</label>
-            <strong>{money(view === "nominal" ? end.perCapita : end.perCapitaReal)}</strong>
-            <small>{view === "nominal" ? "nominal" : `in ${baseline.baseYear} dollars`}</small>
+            <strong>{money(end.perCapita)}</strong>
+            <small>{money(end.perCapitaReal)} in {baseline.baseYear} dollars</small>
           </div>
           <div className="card">
             <label>vs model baseline</label>
-            <strong>{money(end.debt - modelBaseline)}</strong>
-            <small>Against the walk-forward production forecast (nominal)</small>
+            <strong>{money(end.debt - modelAtEnd.value)}</strong>
+            <small>Against the walk-forward production forecast for {modelAtEnd.year} (nominal)</small>
           </div>
         </div>
       </div>
@@ -82,13 +89,19 @@ export default function ScenarioLab({ baseline, baselinePath }: { baseline: Scen
             />
           </div>
         ))}
-        <button className="button" onClick={() => setInput(SCENARIO_DEFAULTS)}>Reset assumptions</button>
+        <button className="button" onClick={() => setInput(defaults)}>Reset assumptions</button>
         <div className="notice">
-          Deterministic annual cash-flow identity — not machine learning. Growth sliders are real rates; inflation is added to
-          form nominal paths, and real outputs are stated in {baseline.baseYear} dollars. Starting conditions: Treasury debt
-          {" "}{money(baseline.debt)} ({baseline.debtAsOf}), BEA GDP {money(baseline.gdp)}, FY receipts {money(baseline.receipts)} and
-          outlays {money(baseline.outlays)} (fiscal year ending {baseline.fiscalYearEnd.slice(0, 10)}). Excludes policy feedback,
-          maturity structure, and recession dynamics. Outputs depend entirely on your assumptions.
+          Deterministic annual cash-flow identity — not machine learning. The simulation is anchored at the last complete
+          fiscal year so every input shares one vintage: FY{baseline.fiscalYearEnd.slice(0, 4)} debt {money(baseline.debt)},
+          receipts {money(baseline.receipts)}, outlays {money(baseline.outlays)} including {money(baseline.interest)} of
+          actual net interest (OMB), GDP {money(baseline.gdp)}, population {(baseline.population / 1e6).toFixed(1)}M growing
+          {" "}{pct(baseline.populationGrowth * 100)}/yr (trailing Census trend). The first simulated year is
+          FY{Number(baseline.fiscalYearEnd.slice(0, 4)) + 1}, much of which has already occurred — actual debt was
+          {" "}{money(baseline.debtToday)} on {baseline.debtTodayAsOf}. The interest slider defaults to the observed effective
+          net-interest rate ({pct(baseline.effectiveRatePct)}); a fully repaid debt floors at zero rather than going
+          negative. Growth sliders are real rates; inflation (deflation allowed) forms nominal paths, and real outputs are
+          stated in {baseline.baseYear} dollars. Excludes policy feedback, maturity structure, and recession dynamics.
+          Outputs depend entirely on your assumptions and are not official projections.
         </div>
       </div>
     </div>

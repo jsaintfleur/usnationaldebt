@@ -43,16 +43,26 @@ export function populationTrendGrowth(): number {
   return Math.pow(last.value / prior.value, 1 / 10) - 1;
 }
 
-/** Latest complete-fiscal-year federal receipts and net outlays (dollars). */
+/**
+ * Latest complete-fiscal-year federal receipts, net outlays, and net interest
+ * outlays (dollars). All three must come from the SAME fiscal year — mixing
+ * vintages here would corrupt the scenario engine's accounting identity.
+ */
 export function fiscalBaseline() {
   const receipts = readFredCsv("data/fiscal-receipts.csv");
   const outlays = readFredCsv("data/fiscal-outlays.csv");
+  const interest = readFredCsv("data/fiscal-interest.csv");
   const r = receipts[receipts.length - 1];
   const o = outlays[outlays.length - 1];
+  const i = interest[interest.length - 1];
+  if (o.date !== r.date || i.date !== r.date) {
+    throw new Error(`Fiscal baseline vintage mismatch: receipts ${r.date}, outlays ${o.date}, interest ${i.date}`);
+  }
   return {
     fiscalYearEnd: r.date,
     receipts: r.value * 1e6,
     outlays: o.value * 1e6,
-    source: "OMB via FRED (FYFR, FYONET)",
+    interest: i.value * 1e6,
+    source: "OMB via FRED (FYFR, FYONET, FYOINT)",
   };
 }

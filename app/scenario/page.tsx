@@ -4,7 +4,7 @@ import { forecast } from "@/lib/data";
 
 export default function Page() {
   const baseline = scenarioBaseline();
-  const baselinePath = forecast(undefined, 20).map((p) => p.value);
+  const baselinePath = forecast(undefined, 21).map((p) => ({ year: p.year, value: p.value }));
   return (
     <main className="wrap">
       <header className="pageHead">
@@ -13,7 +13,8 @@ export default function Page() {
         <p>
           A deterministic fiscal calculator — not machine learning. Adjust real growth, inflation, and interest-rate
           assumptions to see their directional effect on nominal debt, real {baseline.baseYear}-dollar debt, debt-to-GDP,
-          and per-resident burden. Scenario outputs depend entirely on your assumptions and are not official projections.
+          and per-resident burden. The simulation runs in fiscal years from the last complete fiscal-year baseline.
+          Scenario outputs depend entirely on your assumptions and are not official projections.
         </p>
       </header>
       <ScenarioLab baseline={baseline} baselinePath={baselinePath} />

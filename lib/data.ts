@@ -76,7 +76,7 @@ export const administrations: Administration[] = (() => {
 })();
 
 /** Annual fiscal-year-end debt (Treasury Historical Debt Outstanding, 1790+). */
-function annualDebt(): DebtPoint[] {
+export function annualDebt(): DebtPoint[] {
   return read("data/debt-annual.csv")
     .trim()
     .split("\n")

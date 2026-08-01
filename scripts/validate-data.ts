@@ -52,6 +52,8 @@ const fiscal = fiscalBaseline();
 if (fiscal.receipts < 1e12 || fiscal.outlays < 1e12) fail("Fiscal baseline implausible");
 if (fiscal.outlays < fiscal.receipts * 0.5 || fiscal.receipts < fiscal.outlays * 0.3)
   fail("Fiscal receipts/outlays ratio implausible");
+if (fiscal.interest <= 0 || fiscal.interest > fiscal.outlays * 0.5)
+  fail("Fiscal interest outlays implausible relative to total outlays");
 
 // --- Deep history -------------------------------------------------------------------
 import { annualHistory, dailyHistory, recessions } from "../lib/deep-history";

@@ -83,6 +83,7 @@ async function main() {
     ["data/fiscal-receipts.csv", get(fredCsv("FYFR"))],
     ["data/fiscal-outlays.csv", get(fredCsv("FYONET"))],
     ["data/fiscal-deficit.csv", get(fredCsv("FYFSD"))],
+    ["data/fiscal-interest.csv", get(fredCsv("FYOINT"))],
     ["data/recessions.csv", get(fredCsv("USREC"))],
     ["data/treasury-10y.csv", get(fredCsv("GS10"))],
   ];

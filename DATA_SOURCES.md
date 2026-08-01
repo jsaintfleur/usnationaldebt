@@ -14,6 +14,7 @@
 | CPIAUCNS | BLS via FRED | `fred.stlouisfed.org/series/CPIAUCNS` | Monthly | CPI-U (NSA) | 1913-01-01 | Real conversion before 1947; YoY inflation overlay | Same 1982–84=100 base as CPIAUCSL; pre-1913 real values shown as unavailable |
 | GDPA | BEA via FRED | `fred.stlouisfed.org/series/GDPA` | Annual | nominal GDP | 1929 | Historical debt-to-GDP overlay | Pre-1929 ratios not shown (would require non-government reconstructions) |
 | FYFSD | OMB via FRED | `fred.stlouisfed.org/series/FYFSD` | Annual, fiscal year | surplus/deficit | 1901 | Deficit overlay | Negative = deficit |
+| FYOINT | OMB via FRED | `fred.stlouisfed.org/series/FYOINT` | Annual, fiscal year | net interest outlays | 1940 | Scenario interest split; effective-rate default | Must share the fiscal year of FYFR/FYONET (validated) |
 | USREC | NBER via FRED | `fred.stlouisfed.org/series/USREC` | Monthly | recession indicator | 1854-12 | Recession shading | Compressed to date ranges on load |
 | GS10 | Federal Reserve via FRED | `fred.stlouisfed.org/series/GS10` | Monthly | 10-year Treasury yield | 1953-04 | Interest-rate overlay | Percent |
 | Party divisions | Senate.gov / House.gov (via Wikipedia consolidation) | `data/political-control.json` | Per Congress | seats, chamber majorities | 1789 (1st Congress) | Political context, control strips, political-feature evaluation | Curated snapshot with anchor tests; caucus/tie-break organizations carry explicit notes |
