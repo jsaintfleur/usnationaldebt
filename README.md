@@ -46,7 +46,7 @@ Forecast views distinguish the last observed value from model-generated estimate
 | Capability | What it provides | Evidence standard |
 |---|---|---|
 | **Live fiscal snapshot** | Total public debt, debt held by the public, and intragovernmental holdings | Exact U.S. Treasury Debt to the Penny observation |
-| **Historical explorer** | Comparable quarterly debt history with contextual event markers | Treasury `GFDEBTN` series distributed by FRED |
+| **Historical explorer** | Comparable debt history with range presets, supported resolutions, contextual markers, and live window statistics | Treasury `GFDEBTN` series distributed by FRED |
 | **Administration comparison** | Start debt, end debt, change, CAGR, and average daily increase | Nearest prior quarterly observation at each transition |
 | **Government-control timeline** | President, Congress, House, Senate, and unified/divided classification | Official House and Senate party-division histories |
 | **Forecast center** | Model comparison, selected baseline, horizon readouts, and empirical intervals | Expanding-window rolling-origin evaluation |
