@@ -1,0 +1,1 @@
+import {NextResponse} from "next/server";import {history} from "@/lib/data";import {evaluateModels} from "@/lib/forecasting";export function GET(){return NextResponse.json({data:evaluateModels(history()),meta:{validation:"rolling-origin annual","politicalFeatureResult":"Not retained: sample is too small for defensible incremental forecasting value"}})}

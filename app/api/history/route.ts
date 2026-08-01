@@ -1,0 +1,1 @@
+import {NextRequest,NextResponse} from "next/server";import {history} from "@/lib/data";export function GET(req:NextRequest){const s=req.nextUrl.searchParams,start=s.get("start")??"0000-01-01",end=s.get("end")??"9999-12-31";return NextResponse.json({data:history().filter(x=>x.date>=start&&x.date<=end),meta:{frequency:"quarterly",units:"USD",observed:true}})}
