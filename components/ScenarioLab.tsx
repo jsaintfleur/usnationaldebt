@@ -44,6 +44,7 @@ export default function ScenarioLab({ baseline, baselinePath }: { baseline: Scen
           primary={{ label: "Scenario debt path", points, color: "#a87719" }}
           baseYear={baseline.baseYear}
           showControlStrips={false}
+          showWindowStats
           height={330}
           exportName="debtscope-scenario"
         />

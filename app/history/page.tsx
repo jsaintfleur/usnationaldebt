@@ -22,6 +22,9 @@ export default function Page() {
         <FiscalChart
           primary={{ label: "Total public debt", points: data.debtCoarse }}
           daily={data.debtDaily}
+          resolutions={{ annual: data.debtAnnual, quarterly: data.debtQuarterly, daily: data.debtDaily }}
+          showRangePresets
+          showWindowStats
           baseYear={BASE_YEAR}
           recessions={data.recessions}
           control={data.control}

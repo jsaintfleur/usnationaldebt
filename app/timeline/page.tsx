@@ -21,6 +21,9 @@ export default function Page() {
         <FiscalChart
           primary={{ label: "Total public debt", points: data.debtCoarse }}
           daily={data.debtDaily}
+          resolutions={{ annual: data.debtAnnual, quarterly: data.debtQuarterly, daily: data.debtDaily }}
+          showRangePresets
+          showWindowStats
           baseYear={BASE_YEAR}
           overlays={[
             { id: "d2g", label: "Debt-to-GDP (right axis)", unit: "pct", color: "#15846d", points: data.overlays.debtToGdp },

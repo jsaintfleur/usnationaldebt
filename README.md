@@ -16,6 +16,7 @@ Forecasts come from transparent statistical time-series models selected by **rol
 - Production forecasts are generated from the committed, versioned evaluation artifact (`data/model-evaluation.json`); model version, data-through date, and interval coverage are displayed in the UI and returned by the API
 - Nominal and inflation-adjusted (2025-dollar, BLS CPI-U) views for history, administrations, and scenarios — every real figure states its base year; real values before CPI coverage (1913) are shown as unavailable, never fabricated
 - Deep history: Treasury annual records from 1790, quarterly from 1966, daily from 1993, tier-labeled; interactive charts (zoom/pan/log/exports) with recession shading, presidential and congressional control strips, and event annotations
+- Time-interval tooling: quick range presets (1Y–100Y/All), an explicit annual/quarterly/daily interval picker, and a live window-insights strip (start→end, change, %, CAGR, per-day rate, real 2025-dollar change) for any zoomed or brushed range
 - Political control (1st–119th Congress) compiled from official party-division tables with anchor tests; evaluated as ML features (finding: no out-of-sample predictive gain — see `POLITICAL_MODEL_COMPARISON.csv`) and used for descriptive context only
 
 ## Local setup

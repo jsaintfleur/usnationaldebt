@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { combinedHistory, dailyHistory, recessions, annualGdp, annualDeficit, treasury10y, inflationYoY, debtToGdpAnnual } from "./deep-history";
+import { combinedHistory, annualHistory, quarterlyHistory, dailyHistory, recessions, annualGdp, annualDeficit, treasury10y, inflationYoY, debtToGdpAnnual } from "./deep-history";
 import { presidents, congresses, politicalContext } from "./political";
 import { toRealMaybe, BASE_YEAR } from "./inflation";
 
@@ -29,6 +29,9 @@ export type TimelineEvent = { id: string; kind: string; label: string; start: st
 export type TimelineData = {
   baseYear: number;
   debtCoarse: ChartPoint[]; // annual 1790–1965 + quarterly 1966+, nominal + real
+  /** Pure single-resolution series for the explicit interval picker. */
+  debtAnnual: ChartPoint[]; // 1790+, nominal + real
+  debtQuarterly: ChartPoint[]; // 1966+, nominal + real
   debtDaily: ChartPoint[]; // 1993+, nominal only (real toggle at daily zoom uses monthly CPI anyway)
   tiers: Array<{ start: string; end: string; label: string }>;
   overlays: {
@@ -79,6 +82,8 @@ export function timelineData(): TimelineData {
   return {
     baseYear: BASE_YEAR,
     debtCoarse: coarse.map((p) => ({ d: p.date, v: p.debt, r: toRealMaybe(p.debt, p.date) })),
+    debtAnnual: annualHistory().map((p) => ({ d: p.date, v: p.debt, r: toRealMaybe(p.debt, p.date) })),
+    debtQuarterly: quarterlyHistory().map((p) => ({ d: p.date, v: p.debt, r: toRealMaybe(p.debt, p.date) })),
     debtDaily: dailyHistory().map((p) => ({ d: p.date, v: p.debt })),
     tiers: [
       { start: "1790-01-01", end: "1843-01-01", label: "Annual Treasury records; pre-standardized fiscal years — lower certainty" },

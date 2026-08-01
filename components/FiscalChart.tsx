@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { money, pct } from "@/lib/format";
+import { windowStats, RANGE_PRESETS } from "@/lib/chart-stats";
 import type { ChartPoint, ControlSegment, TimelineEvent } from "@/lib/timeline-data";
 
 /**
@@ -32,6 +33,12 @@ export type OverlaySeries = {
 type Props = {
   primary: { label: string; points: ChartPoint[]; color?: string };
   daily?: ChartPoint[];
+  /** Pure single-resolution series enabling the explicit interval picker. */
+  resolutions?: { annual?: ChartPoint[]; quarterly?: ChartPoint[]; daily?: ChartPoint[] };
+  /** Quick range presets (1Y … All) anchored at the latest observation. */
+  showRangePresets?: boolean;
+  /** Computed insights (Δ, %, CAGR, per-day, real Δ) for the visible window. */
+  showWindowStats?: boolean;
   baseYear: number;
   overlays?: OverlaySeries[];
   recessions?: Array<{ start: string; end: string }>;
@@ -130,6 +137,9 @@ const fmtPct = (v: number) => pct(v);
 export default function FiscalChart({
   primary,
   daily,
+  resolutions,
+  showRangePresets = false,
+  showWindowStats = false,
   baseYear,
   overlays = [],
   recessions = [],
@@ -190,10 +200,18 @@ export default function FiscalChart({
   const xOf = (t: number) => margin.left + ((t - t0) / (t1 - t0)) * plotW;
   const tOf = (x: number) => t0 + ((x - margin.left) / plotW) * (t1 - t0);
 
-  // --- Resolution: upgrade to daily when the window is tight and covered ------
+  // --- Resolution: auto-upgrade to daily on tight windows, or honor an explicit pick
+  const [interval, setIntervalPick] = useState<"auto" | "annual" | "quarterly" | "daily">("auto");
   const spanYears = (t1 - t0) / (365.2425 * DAY);
-  const usingDaily = !!daily && daily.length > 0 && spanYears <= 3 && t0 >= ms(daily[0].d) - 90 * DAY;
-  const activePoints = usingDaily ? daily! : primary.points;
+  const autoDaily = !!daily && daily.length > 0 && spanYears <= 3 && t0 >= ms(daily[0].d) - 90 * DAY;
+  // An explicit interval is only honored where its series has coverage in-window.
+  const covers = (pts?: ChartPoint[]) => !!pts && pts.length > 0 && ms(pts[pts.length - 1].d) >= t0 && ms(pts[0].d) <= t1;
+  const picked = interval !== "auto" && covers(resolutions?.[interval]) ? resolutions![interval]! : null;
+  const usingDaily = picked ? interval === "daily" : autoDaily;
+  const activePoints = picked ?? (autoDaily ? daily! : primary.points);
+  const intervalOptions = (["auto", "annual", "quarterly", "daily"] as const).filter(
+    (k) => k === "auto" || covers(resolutions?.[k]),
+  );
 
   const val = (p: ChartPoint): number | null => (basis === "real" ? (p.r === undefined ? p.v : p.r) : p.v);
   const inWin = activePoints.filter((p) => {
@@ -437,6 +455,42 @@ export default function FiscalChart({
           <button className={mode === "pan" ? "toggle active" : "toggle"} onClick={() => setMode("pan")} title="Drag to pan">Pan</button>
           <button className="toggle" onClick={reset}>Reset</button>
         </span>
+        {showRangePresets && (
+          <span className="fcGroup" aria-label="Time range">
+            {RANGE_PRESETS.map((p) => {
+              const active = p.years === null
+                ? t0 === fullDomain[0] && t1 === fullDomain[1]
+                : Math.abs(t1 - fullDomain[1]) < DAY && Math.abs(t1 - t0 - p.years * 365.2425 * DAY) < 45 * DAY;
+              return (
+                <button
+                  key={p.label}
+                  className={active ? "toggle active" : "toggle"}
+                  onClick={() =>
+                    setDomain(p.years === null ? fullDomain : clampDomain(fullDomain[1] - p.years * 365.2425 * DAY, fullDomain[1]))
+                  }
+                >
+                  {p.label}
+                </button>
+              );
+            })}
+          </span>
+        )}
+        {resolutions && intervalOptions.length > 1 && (
+          <span className="fcGroup" role="tablist" aria-label="Data interval">
+            {intervalOptions.map((k) => (
+              <button
+                key={k}
+                role="tab"
+                aria-selected={interval === k}
+                className={interval === k ? "toggle active" : "toggle"}
+                onClick={() => setIntervalPick(k)}
+                title={k === "auto" ? "Finest defensible interval for the visible window" : `Force ${k} observations`}
+              >
+                {k === "auto" ? "Auto" : k[0].toUpperCase() + k.slice(1)}
+              </button>
+            ))}
+          </span>
+        )}
         {overlays.length > 0 && (
           <span className="fcGroup fcOverlays">
             {overlays.map((o) => (
@@ -548,6 +602,22 @@ export default function FiscalChart({
           </g>
         )}
       </svg>
+      {/* Window insights: the analyst numbers for the visible interval */}
+      {showWindowStats &&
+        (() => {
+          const s = windowStats(activePoints, t0, t1);
+          if (!s) return null;
+          return (
+            <div className="fcStats">
+              <span className="fcStat"><label>Window</label><b>{s.startDate} → {s.endDate}</b><small>{s.years.toFixed(1)} yrs · {s.observations} obs</small></span>
+              <span className="fcStat"><label>Start → End</label><b>{money(s.startValue)} → {money(s.endValue)}</b><small>nominal</small></span>
+              <span className="fcStat"><label>Change</label><b>{money(s.change)}</b><small>{s.percent === null ? "from zero debt" : pct(s.percent)}</small></span>
+              <span className="fcStat"><label>CAGR</label><b>{s.cagrPct === null ? "—" : pct(s.cagrPct)}</b><small>annualized</small></span>
+              <span className="fcStat"><label>Avg / day</label><b>{money(s.perDay)}</b><small>nominal</small></span>
+              <span className="fcStat"><label>Real change</label><b>{s.realChange === null ? "—" : money(s.realChange)}</b><small>{s.realChange === null ? "pre-CPI era in window" : `${baseYear} $ · ${s.realPercent === null ? "" : pct(s.realPercent)}`}</small></span>
+            </div>
+          );
+        })()}
       {/* Hover card */}
       {hover && hoverInfo?.nearest && (
         <div className="fcTip" style={{ left: `${Math.min(Math.max((hover.x / width) * 100, 8), 70)}%` }}>
