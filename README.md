@@ -126,7 +126,7 @@ npm run data:refresh
 # Check numeric integrity, dates, duplicates, coverage, and reconciliation
 npm run data:validate
 
-# Regenerate model-evaluation documentation
+# Generate a local model-evaluation artifact
 npm run model:evaluate
 ```
 
@@ -165,12 +165,12 @@ npm run build
 
 The current suite contains **14 passing tests** covering transition alignment, administration reconciliation, official component totals, historical ordering, CPI adjustment, political classification, fiscal-year ownership, walk-forward reproducibility, and forecast-interval containment.
 
-Additional assurance documents:
+Public assurance documents:
 
-- [ML Audit](ML_AUDIT.md) — modeling risks, controls, and implemented corrections
-- [ML Gap Register](ML_GAP_REGISTER.md) — prioritized analytical limitations
 - [Model Card](MODEL_CARD.md) — intended use, evaluation, and forecast caveats
 - [Data Lineage](DATA_LINEAGE.md) — source-to-interface traceability
+- [Data Sources](DATA_SOURCES.md) — source registry, cadence, and limitations
+- [Methodology](METHODOLOGY.md) — transformations and interpretation rules
 
 ## Analytical safeguards
 
