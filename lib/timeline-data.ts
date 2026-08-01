@@ -47,7 +47,7 @@ export type TimelineData = {
 };
 
 /** Political control segments: one per (president × congress) overlap, so both band rows and tooltips resolve from a single list. */
-function controlSegments(): ControlSegment[] {
+export function controlSegments(): ControlSegment[] {
   const out: ControlSegment[] = [];
   const today = new Date().toISOString().slice(0, 10);
   for (const p of presidents()) {

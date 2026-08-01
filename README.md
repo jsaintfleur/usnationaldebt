@@ -59,6 +59,7 @@ CI runs all of the above plus a from-scratch re-derivation of the evaluation art
 - `GET /api/scenario?years=10&realSpendingGrowth=2&realRevenueGrowth=1.5&inflation=2.3&interestRate=3.3&realGdpGrowth=1.9`
 - `GET /api/history?resolution=annual|quarterly|daily|auto` — tiered history back to 1790
 - `GET /api/political?date=YYYY-MM-DD` — president, chamber control, unified/divided (1789+)
+- `GET /api/government-control?congress=&party=&kind=` — control-at-time periods with debt attribution, boundary provenance, and real 2025-dollar values (1789+)
 - `GET /api/sources`
 
 ## Audit trail
