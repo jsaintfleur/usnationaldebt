@@ -1,5 +1,5 @@
 {
-  "refreshedAt": "2026-08-01T19:20:46.865Z",
+  "refreshedAt": "2026-08-03T14:37:51.749Z",
   "files": [
     "data/debt-latest.json",
     "data/historical-debt.csv",
@@ -13,6 +13,7 @@
     "data/fiscal-receipts.csv",
     "data/fiscal-outlays.csv",
     "data/fiscal-deficit.csv",
+    "data/fiscal-interest.csv",
     "data/recessions.csv",
     "data/treasury-10y.csv",
     "data/transitions.json"
