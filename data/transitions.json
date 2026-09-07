@@ -1,7 +1,7 @@
 {
   "note": "Exact Treasury Debt to the Penny total on the last business day on or before each administration transition. Boundaries before 1993-04-01 have no daily coverage and use quarter-end proxies instead.",
   "source": "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny",
-  "fetchedAt": "2026-08-31T18:50:10.958Z",
+  "fetchedAt": "2026-09-07T17:20:03.526Z",
   "transitions": [
     {
       "boundary": "2001-01-20",
