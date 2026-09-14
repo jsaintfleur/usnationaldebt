@@ -1,6 +1,6 @@
 {
   "version": "pol-2025-09-30",
-  "generatedAt": "2026-09-07T17:20:04.612Z",
+  "generatedAt": "2026-09-14T17:48:06.926Z",
   "dataThrough": "2025-09-30",
   "design": "annual fiscal-year debt growth (log), 1901+; ridge (lambda=1) walk-forward, one-year-ahead, min 40 training years; political features known ex ante",
   "featureSets": {
