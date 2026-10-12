@@ -1,7 +1,7 @@
 {
-  "version": "pol-2025-09-30",
-  "generatedAt": "2026-09-28T19:18:21.721Z",
-  "dataThrough": "2025-09-30",
+  "version": "pol-2026-09-30",
+  "generatedAt": "2026-10-12T20:57:48.267Z",
+  "dataThrough": "2026-09-30",
   "design": "annual fiscal-year debt growth (log), 1901+; ridge (lambda=1) walk-forward, one-year-ahead, min 40 training years; political features known ex ante",
   "featureSets": {
     "baseline-ar": [
@@ -36,31 +36,31 @@
   "results": [
     {
       "featureSet": "baseline-ar",
-      "n": 85,
-      "mae": 0.040012993055256234,
-      "rmse": 0.06876983122304194,
-      "maeVsNaive": 1.074029306746598
+      "n": 86,
+      "mae": 0.0395960078579505,
+      "rmse": 0.06837030368732441,
+      "maeVsNaive": 1.073408973266449
     },
     {
       "featureSet": "president-only",
-      "n": 85,
-      "mae": 0.05567976234901336,
-      "rmse": 0.07862563555403446,
-      "maeVsNaive": 1.4945569423647607
+      "n": 86,
+      "mae": 0.05511145413717653,
+      "rmse": 0.07817061763208762,
+      "maeVsNaive": 1.494017518453681
     },
     {
       "featureSet": "congress-only",
-      "n": 85,
-      "mae": 0.059625010431825005,
-      "rmse": 0.08083855987788022,
-      "maeVsNaive": 1.6004553453528596
+      "n": 86,
+      "mae": 0.05926421559164743,
+      "rmse": 0.0804263315593489,
+      "maeVsNaive": 1.6065948122317717
     },
     {
       "featureSet": "combined-political",
-      "n": 85,
-      "mae": 0.05915369423067263,
-      "rmse": 0.08222301928836327,
-      "maeVsNaive": 1.5878042694365173
+      "n": 86,
+      "mae": 0.05869592691707302,
+      "rmse": 0.08177141926272831,
+      "maeVsNaive": 1.591189063124886
     }
   ],
   "conclusion": {
